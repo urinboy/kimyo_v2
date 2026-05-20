@@ -1,0 +1,740 @@
+{
+  "_ChemicalFormulaText-Cg3pz2xH.js": {
+    "file": "assets/ChemicalFormulaText-Cg3pz2xH.js",
+    "name": "ChemicalFormulaText",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js",
+      "_react-vendor-D0n2oRsf.js"
+    ]
+  },
+  "_ConfirmModal-Do7U6Xvu.js": {
+    "file": "assets/ConfirmModal-Do7U6Xvu.js",
+    "name": "ConfirmModal",
+    "imports": [
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ]
+  },
+  "_GlassModal-Cx6qmk0k.js": {
+    "file": "assets/GlassModal-Cx6qmk0k.js",
+    "name": "GlassModal",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_GlassSelect-DoVxHPGT.js": {
+    "file": "assets/GlassSelect-DoVxHPGT.js",
+    "name": "GlassSelect",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "_LanguageFlag-CJQkpOd_.js": {
+    "file": "assets/LanguageFlag-CJQkpOd_.js",
+    "name": "LanguageFlag",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_apiErrorMessage-AzspbEzT.js": {
+    "file": "assets/apiErrorMessage-AzspbEzT.js",
+    "name": "apiErrorMessage",
+    "imports": [
+      "_axios-Bp9e-hgX.js"
+    ]
+  },
+  "_axios-Bp9e-hgX.js": {
+    "file": "assets/axios-Bp9e-hgX.js",
+    "name": "axios",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js"
+    ]
+  },
+  "_client-Dcmk8psO.js": {
+    "file": "assets/client-Dcmk8psO.js",
+    "name": "client",
+    "imports": [
+      "_axios-Bp9e-hgX.js",
+      "_util-classnames--dB3XlEI.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_zustand-CoMTLk2C.js"
+    ]
+  },
+  "_date-fns-7vtbpddM.js": {
+    "file": "assets/date-fns-7vtbpddM.js",
+    "name": "date-fns"
+  },
+  "_elements-C4SxVcCR.js": {
+    "file": "assets/elements-C4SxVcCR.js",
+    "name": "elements",
+    "imports": [
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js"
+    ]
+  },
+  "_i18n-lJTOE4OU.js": {
+    "file": "assets/i18n-lJTOE4OU.js",
+    "name": "i18n",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js"
+    ]
+  },
+  "_icons-D4ab1cmj.js": {
+    "file": "assets/icons-D4ab1cmj.js",
+    "name": "icons",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js"
+    ]
+  },
+  "_interestingTasks-Bpu-I9xy.js": {
+    "file": "assets/interestingTasks-Bpu-I9xy.js",
+    "name": "interestingTasks",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_languages-BZTmejDZ.js": {
+    "file": "assets/languages-BZTmejDZ.js",
+    "name": "languages",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_quizzes-Bu9Rzp53.js": {
+    "file": "assets/quizzes-Bu9Rzp53.js",
+    "name": "quizzes",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_react-router-C5eNDyJR.js": {
+    "file": "assets/react-router-C5eNDyJR.js",
+    "name": "react-router",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js"
+    ]
+  },
+  "_react-vendor-D0n2oRsf.js": {
+    "file": "assets/react-vendor-D0n2oRsf.js",
+    "name": "react-vendor",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js"
+    ]
+  },
+  "_regions-NIipXa7M.js": {
+    "file": "assets/regions-NIipXa7M.js",
+    "name": "regions",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_roles-CqVxLGF9.js": {
+    "file": "assets/roles-CqVxLGF9.js",
+    "name": "roles",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_rolldown-runtime-Dw2cE7zH.js": {
+    "file": "assets/rolldown-runtime-Dw2cE7zH.js",
+    "name": "rolldown-runtime"
+  },
+  "_schools-D1MtJNED.js": {
+    "file": "assets/schools-D1MtJNED.js",
+    "name": "schools",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_sonner-CfSLwUHH.js": {
+    "file": "assets/sonner-CfSLwUHH.js",
+    "name": "sonner",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js",
+      "_react-vendor-D0n2oRsf.js"
+    ],
+    "css": [
+      "assets/sonner-DDCWxn3B.css"
+    ]
+  },
+  "_sonner-DDCWxn3B.css": {
+    "file": "assets/sonner-DDCWxn3B.css",
+    "src": "_sonner-DDCWxn3B.css"
+  },
+  "_standaloneQuizzes-DLneojzu.js": {
+    "file": "assets/standaloneQuizzes-DLneojzu.js",
+    "name": "standaloneQuizzes",
+    "imports": [
+      "_client-Dcmk8psO.js"
+    ]
+  },
+  "_tanstack-CXwCp4i5.js": {
+    "file": "assets/tanstack-CXwCp4i5.js",
+    "name": "tanstack",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js",
+      "_react-vendor-D0n2oRsf.js"
+    ]
+  },
+  "_util-classnames--dB3XlEI.js": {
+    "file": "assets/util-classnames--dB3XlEI.js",
+    "name": "util-classnames"
+  },
+  "_zustand-CoMTLk2C.js": {
+    "file": "assets/zustand-CoMTLk2C.js",
+    "name": "zustand",
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_i18n-lJTOE4OU.js"
+    ]
+  },
+  "index.html": {
+    "file": "assets/index-Cb2gpj7X.js",
+    "name": "index",
+    "src": "index.html",
+    "isEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_zustand-CoMTLk2C.js",
+      "_GlassSelect-DoVxHPGT.js",
+      "_client-Dcmk8psO.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ],
+    "dynamicImports": [
+      "src/pages/auth/LoginPage.tsx",
+      "src/pages/DashboardPage.tsx",
+      "src/pages/languages/LanguagesPage.tsx",
+      "src/pages/elements/ElementsPage.tsx",
+      "src/pages/errors/ErrorPage.tsx",
+      "src/pages/schools/SchoolsPage.tsx",
+      "src/pages/schools/SchoolDetailPage.tsx",
+      "src/pages/users/UsersPage.tsx",
+      "src/pages/users/RolesPage.tsx",
+      "src/pages/users/PermissionsPage.tsx",
+      "src/pages/mines/MinesPage.tsx",
+      "src/pages/lessons/LessonsPage.tsx",
+      "src/pages/formulas/FormulasPage.tsx",
+      "src/pages/chemicalReactions/ChemicalReactionsPage.tsx",
+      "src/pages/appTests/AppTestsPage.tsx",
+      "src/pages/appTests/AppQuizQuestionsPage.tsx",
+      "src/pages/appTests/AppQuizAnswersPage.tsx",
+      "src/pages/SettingsPage.tsx",
+      "src/pages/lessons/QuizManagement.tsx",
+      "src/pages/geography/RegionsPage.tsx",
+      "src/pages/geography/DistrictsPage.tsx",
+      "src/pages/geography/NeighborCountriesPage.tsx",
+      "src/pages/geography/GeographyTopicsPage.tsx",
+      "src/pages/documents/DocumentsPage.tsx",
+      "src/pages/interestingTasks/InterestingTasksPage.tsx",
+      "src/pages/interestingTasks/SubmissionsPage.tsx"
+    ],
+    "css": [
+      "assets/index-BhkTDfv2.css"
+    ]
+  },
+  "src/pages/DashboardPage.tsx": {
+    "file": "assets/DashboardPage-CfVDgHMC.js",
+    "name": "DashboardPage",
+    "src": "src/pages/DashboardPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_tanstack-CXwCp4i5.js",
+      "_date-fns-7vtbpddM.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_ChemicalFormulaText-Cg3pz2xH.js"
+    ]
+  },
+  "src/pages/SettingsPage.tsx": {
+    "file": "assets/SettingsPage-CZbG5i3r.js",
+    "name": "SettingsPage",
+    "src": "src/pages/SettingsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/appTests/AppQuizAnswersPage.tsx": {
+    "file": "assets/AppQuizAnswersPage-DdLtq8Ms.js",
+    "name": "AppQuizAnswersPage",
+    "src": "src/pages/appTests/AppQuizAnswersPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_schools-D1MtJNED.js",
+      "_standaloneQuizzes-DLneojzu.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/appTests/AppQuizQuestionsPage.tsx": {
+    "file": "assets/AppQuizQuestionsPage-C40O_G7u.js",
+    "name": "AppQuizQuestionsPage",
+    "src": "src/pages/appTests/AppQuizQuestionsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_quizzes-Bu9Rzp53.js",
+      "_standaloneQuizzes-DLneojzu.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/appTests/AppTestsPage.tsx": {
+    "file": "assets/AppTestsPage-B7UiIPKN.js",
+    "name": "AppTestsPage",
+    "src": "src/pages/appTests/AppTestsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_standaloneQuizzes-DLneojzu.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/auth/LoginPage.tsx": {
+    "file": "assets/LoginPage-DauyMT_0.js",
+    "name": "LoginPage",
+    "src": "src/pages/auth/LoginPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_GlassSelect-DoVxHPGT.js",
+      "_client-Dcmk8psO.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/chemicalReactions/ChemicalReactionsPage.tsx": {
+    "file": "assets/ChemicalReactionsPage-VMAZ_bOF.js",
+    "name": "ChemicalReactionsPage",
+    "src": "src/pages/chemicalReactions/ChemicalReactionsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/documents/DocumentsPage.tsx": {
+    "file": "assets/DocumentsPage-DAM2aB-j.js",
+    "name": "DocumentsPage",
+    "src": "src/pages/documents/DocumentsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/elements/ElementsPage.tsx": {
+    "file": "assets/ElementsPage-CcroaawQ.js",
+    "name": "ElementsPage",
+    "src": "src/pages/elements/ElementsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_elements-C4SxVcCR.js",
+      "_languages-BZTmejDZ.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/errors/ErrorPage.tsx": {
+    "file": "assets/ErrorPage-Dl4b3Sdp.js",
+    "name": "ErrorPage",
+    "src": "src/pages/errors/ErrorPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_react-router-C5eNDyJR.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js"
+    ]
+  },
+  "src/pages/formulas/FormulasPage.tsx": {
+    "file": "assets/FormulasPage-BJqHrCc3.js",
+    "name": "FormulasPage",
+    "src": "src/pages/formulas/FormulasPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_elements-C4SxVcCR.js",
+      "_languages-BZTmejDZ.js",
+      "_ChemicalFormulaText-Cg3pz2xH.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/geography/DistrictsPage.tsx": {
+    "file": "assets/DistrictsPage--P9GtMrQ.js",
+    "name": "DistrictsPage",
+    "src": "src/pages/geography/DistrictsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_regions-NIipXa7M.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/geography/GeographyTopicsPage.tsx": {
+    "file": "assets/GeographyTopicsPage-13lwyIY_.js",
+    "name": "GeographyTopicsPage",
+    "src": "src/pages/geography/GeographyTopicsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/geography/NeighborCountriesPage.tsx": {
+    "file": "assets/NeighborCountriesPage-569UzZmy.js",
+    "name": "NeighborCountriesPage",
+    "src": "src/pages/geography/NeighborCountriesPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ]
+  },
+  "src/pages/geography/RegionsPage.tsx": {
+    "file": "assets/RegionsPage-BW17KvAE.js",
+    "name": "RegionsPage",
+    "src": "src/pages/geography/RegionsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_regions-NIipXa7M.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/interestingTasks/InterestingTasksPage.tsx": {
+    "file": "assets/InterestingTasksPage-B4IAj98j.js",
+    "name": "InterestingTasksPage",
+    "src": "src/pages/interestingTasks/InterestingTasksPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_interestingTasks-Bpu-I9xy.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/interestingTasks/SubmissionsPage.tsx": {
+    "file": "assets/SubmissionsPage-q99DOZq1.js",
+    "name": "SubmissionsPage",
+    "src": "src/pages/interestingTasks/SubmissionsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_interestingTasks-Bpu-I9xy.js",
+      "_schools-D1MtJNED.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/languages/LanguagesPage.tsx": {
+    "file": "assets/LanguagesPage-vDDvnBBH.js",
+    "name": "LanguagesPage",
+    "src": "src/pages/languages/LanguagesPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ]
+  },
+  "src/pages/lessons/LessonsPage.tsx": {
+    "file": "assets/LessonsPage-CwoHQoae.js",
+    "name": "LessonsPage",
+    "src": "src/pages/lessons/LessonsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/lessons/QuizManagement.tsx": {
+    "file": "assets/QuizManagement-LCrSDZMp.js",
+    "name": "QuizManagement",
+    "src": "src/pages/lessons/QuizManagement.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_languages-BZTmejDZ.js",
+      "_quizzes-Bu9Rzp53.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/mines/MinesPage.tsx": {
+    "file": "assets/MinesPage-DldsTJoy.js",
+    "name": "MinesPage",
+    "src": "src/pages/mines/MinesPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_elements-C4SxVcCR.js",
+      "_languages-BZTmejDZ.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_LanguageFlag-CJQkpOd_.js"
+    ]
+  },
+  "src/pages/schools/SchoolDetailPage.tsx": {
+    "file": "assets/SchoolDetailPage-BQl3hmop.js",
+    "name": "SchoolDetailPage",
+    "src": "src/pages/schools/SchoolDetailPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_schools-D1MtJNED.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/schools/SchoolsPage.tsx": {
+    "file": "assets/SchoolsPage-DjEE2PFO.js",
+    "name": "SchoolsPage",
+    "src": "src/pages/schools/SchoolsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_react-router-C5eNDyJR.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_schools-D1MtJNED.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  },
+  "src/pages/users/PermissionsPage.tsx": {
+    "file": "assets/PermissionsPage-D-0d75K6.js",
+    "name": "PermissionsPage",
+    "src": "src/pages/users/PermissionsPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ]
+  },
+  "src/pages/users/RolesPage.tsx": {
+    "file": "assets/RolesPage-C37xR6dv.js",
+    "name": "RolesPage",
+    "src": "src/pages/users/RolesPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_client-Dcmk8psO.js",
+      "_roles-CqVxLGF9.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js"
+    ]
+  },
+  "src/pages/users/UsersPage.tsx": {
+    "file": "assets/UsersPage-DjMdobFZ.js",
+    "name": "UsersPage",
+    "src": "src/pages/users/UsersPage.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_rolldown-runtime-Dw2cE7zH.js",
+      "_tanstack-CXwCp4i5.js",
+      "_i18n-lJTOE4OU.js",
+      "_icons-D4ab1cmj.js",
+      "_react-vendor-D0n2oRsf.js",
+      "_sonner-CfSLwUHH.js",
+      "_client-Dcmk8psO.js",
+      "_roles-CqVxLGF9.js",
+      "_schools-D1MtJNED.js",
+      "_ConfirmModal-Do7U6Xvu.js",
+      "_GlassModal-Cx6qmk0k.js",
+      "_apiErrorMessage-AzspbEzT.js"
+    ]
+  }
+}

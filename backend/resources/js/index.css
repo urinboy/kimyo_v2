@@ -1,0 +1,263 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary-purple: #A855F7;
+  --color-primary-green: #10B981;
+  --font-inter: "Inter", sans-serif;
+}
+
+/**
+ * Light / Dark — barcha fon va matnlar shu o‘zgaruvchilar orqali
+ */
+@layer base {
+  :root {
+    /* Sahifa foni */
+    --page-bg: #f1f5f9;
+    --page-gradient: radial-gradient(ellipse 80% 50% at 0% -10%, #e0e7ff 0%, transparent 50%),
+      radial-gradient(ellipse 70% 45% at 100% 100%, #ccfbf1 0%, transparent 45%),
+      var(--page-bg);
+
+    /* Kartalar / “glass” sirt */
+    --surface-card: rgba(255, 255, 255, 0.92);
+    --surface-border: rgba(15, 23, 42, 0.08);
+    --card-shadow: 0 4px 24px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+
+    /* Matn */
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --text-subtle: #94a3b8;
+
+    /* Sidebar (yorug‘) */
+    --sidebar-surface: rgba(255, 255, 255, 0.95);
+    --sidebar-border: rgba(15, 23, 42, 0.06);
+  }
+
+  .dark {
+    --page-bg: #0f172a;
+    --page-gradient: radial-gradient(ellipse 80% 50% at 0% -10%, #312e81 0%, transparent 45%),
+      radial-gradient(ellipse 70% 45% at 100% 100%, #064e3b 0%, transparent 40%),
+      var(--page-bg);
+
+    --surface-card: rgba(30, 41, 59, 0.88);
+    --surface-border: rgba(148, 163, 184, 0.12);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.04);
+
+    /* Qorong‘i fonda o‘qilishi uchun ikkilamchi matn yorug‘roq */
+    --text-primary: #f8fafc;
+    --text-secondary: #e2e8f0;
+    --text-muted: #cbd5e1;
+    --text-subtle: #a8b4c4;
+
+    --sidebar-surface: rgba(30, 41, 59, 0.92);
+    --sidebar-border: rgba(148, 163, 184, 0.1);
+  }
+
+  /**
+   * Skrollbar ko‘rinmasin; sichqoncha / touch / klaviatura / treklar bilan skroll saqlanadi
+   * (see .scrollbar-none for ichki overflow konteynerlar)
+   */
+  html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  html::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  body {
+    @apply antialiased font-inter min-h-screen overflow-x-hidden transition-colors duration-300;
+    background: var(--page-gradient);
+    color: var(--text-primary);
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+
+  #root {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #root::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply backdrop-blur-xl transition-all duration-300;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  .glass-card {
+    @apply backdrop-blur-xl rounded-3xl p-8 transition-all duration-300;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  .btn-primary {
+    @apply px-6 py-3 rounded-2xl font-bold transition-all duration-300 text-white
+      bg-gradient-to-r from-purple-500 to-indigo-600 hover:shadow-lg
+      hover:shadow-purple-500/30 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  /**
+   * Modal: Bekor / ikkilamchi (yorug‘: to‘q matn, qorong‘i: yorug‘ matn, fon har ikkalada ham o‘qiladi)
+   * Eski: `bg-slate-100` + `text-app-primary` => qorong‘ida yorug‘ fon + ochiq matn
+   */
+  .btn-modal-secondary {
+    @apply rounded-2xl px-6 py-3 font-bold transition-all
+      border border-slate-200/90 bg-slate-100/95 text-slate-800
+      hover:bg-slate-200/90
+      dark:border-white/20 dark:bg-slate-800/90 dark:text-slate-100
+      dark:hover:bg-slate-700/90;
+  }
+
+  .input-glass {
+    @apply w-full px-5 py-4 rounded-2xl transition-all duration-300;
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    color: var(--text-primary);
+    box-shadow: var(--card-shadow);
+  }
+
+  .input-glass::placeholder {
+    color: var(--text-muted);
+  }
+
+  .input-glass:focus {
+    @apply outline-none border-purple-500/50 ring-4 ring-purple-500/10;
+  }
+
+  /* Mavzuga mos matn (komponentlarda) */
+  .text-app-primary {
+    color: var(--text-primary);
+  }
+  .text-app-secondary {
+    color: var(--text-secondary);
+  }
+  .text-app-muted {
+    color: var(--text-muted);
+  }
+
+  .text-app-subtle {
+    color: var(--text-subtle);
+  }
+
+  /* Kichik sarlavhalar, ustun sarlavhalari (ikkala mavzu) */
+  .text-kpi-label {
+    @apply text-sm font-medium uppercase tracking-wide;
+    color: var(--text-secondary);
+  }
+
+  .text-kpi-header {
+    @apply text-xs font-bold uppercase tracking-wider;
+    color: var(--text-secondary);
+  }
+
+  .text-body-secondary {
+    color: var(--text-secondary);
+  }
+
+  .text-caption {
+    @apply text-xs;
+    color: var(--text-muted);
+  }
+
+  /* Chap panel — kontentdan biroz ajralishi uchun */
+  .sidebar-panel {
+    background: var(--sidebar-surface);
+    border: 1px solid var(--sidebar-border);
+    box-shadow: var(--card-shadow);
+  }
+
+  /**
+   * Jadval: avvalgi `border-white/5` yorug‘ fonda deyarli ko‘rinmas / matn oq qolgan
+   */
+  .data-table-shell thead tr {
+    @apply border-b border-black/[0.08] dark:border-white/5;
+    @apply bg-black/[0.04] dark:bg-white/5;
+  }
+  .data-table-shell tbody {
+    @apply divide-y divide-black/[0.06] dark:divide-white/5;
+  }
+  .data-table-shell tbody tr {
+    @apply hover:bg-black/[0.03] dark:hover:bg-white/5 transition-colors;
+  }
+
+  /* Jadval ichidagi kichik badge (turi va h.k.) */
+  .table-pill {
+    @apply rounded-full border border-black/10 bg-black/[0.03] px-3 py-1 text-xs;
+    @apply dark:border-white/10 dark:bg-white/5;
+    color: var(--text-primary);
+  }
+
+  /* Mashg‘ulotlar modali — TipTap mazmuni */
+  .lesson-tiptap-editor ul {
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0.5em 0;
+  }
+  .lesson-tiptap-editor ol {
+    list-style: decimal;
+    padding-left: 1.25rem;
+    margin: 0.5em 0;
+  }
+  .lesson-tiptap-editor h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0.75em 0 0.35em;
+  }
+  .lesson-tiptap-editor h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0.65em 0 0.3em;
+  }
+  .lesson-tiptap-editor h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0.55em 0 0.25em;
+  }
+  .lesson-tiptap-editor p {
+    margin: 0.35em 0;
+  }
+  .lesson-tiptap-editor blockquote {
+    border-left: 3px solid rgba(168, 85, 247, 0.45);
+    padding-left: 0.75rem;
+    margin: 0.5em 0;
+    color: var(--text-secondary);
+  }
+  .lesson-tiptap-editor pre {
+    background: rgba(0, 0, 0, 0.06);
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.85em;
+    overflow-x: auto;
+  }
+  .dark .lesson-tiptap-editor pre {
+    background: rgba(255, 255, 255, 0.07);
+  }
+}

@@ -1,0 +1,1 @@
+import{t as e}from"./client-Dcmk8psO.js";import"./languages-BZTmejDZ.js";var t={getAll:async()=>(await e.get(`/elements`)).data,create:async t=>(await e.post(`/elements`,t)).data,update:async(t,n)=>(await e.put(`/elements/${t}`,n)).data,delete:async t=>(await e.delete(`/elements/${t}`)).data};export{t};

@@ -1,0 +1,1 @@
+import{t as e}from"./client-Dcmk8psO.js";var t={getAll:async()=>(await e.get(`/languages`)).data,create:async t=>(await e.post(`/languages`,t)).data,update:async(t,n)=>(await e.put(`/languages/${t}`,n)).data,delete:async t=>(await e.delete(`/languages/${t}`)).data};export{t};

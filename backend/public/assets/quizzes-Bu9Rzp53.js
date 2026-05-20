@@ -1,0 +1,1 @@
+import{t as e}from"./client-Dcmk8psO.js";var t={getByLesson:async t=>(await e.get(`/lessons/${t}/quiz`)).data,create:async t=>(await e.post(`/quizzes`,t)).data,syncQuestions:async(t,n)=>(await e.post(`/quizzes/${t}/sync`,{questions:n})).data,update:async(t,n)=>(await e.put(`/quizzes/${t}`,n)).data,delete:async t=>(await e.delete(`/quizzes/${t}`)).data};export{t};

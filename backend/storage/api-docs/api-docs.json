@@ -1,0 +1,2123 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Kimyo v2 API Documentation",
+        "description": "9-sinf o'quvchilari uchun interaktiv kimyo platformasi API hujjatlari",
+        "contact": {
+            "email": "admin@kimyo.uz"
+        },
+        "version": "2.5.13"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Asosiy API Server"
+        }
+    ],
+    "paths": {
+        "/api/v1/chemical-reactions": {
+            "get": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Reaksiya turlari va shartli belgilar (umumiy ro‘yxat)",
+                "description": "Kimyoviy reaksiya turlari va reaksiyada ishlatiladigan shartli belgilar.\nMobil / klient: avvalg hardkod o‘rniga.",
+                "operationId": "9d8ea8ff76196f059d717c84a4f0acb3",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "reaction_types": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "reaction_symbols": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/chemical-reaction-symbols": {
+            "post": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Reaksiya shartli belgisini yaratish",
+                "operationId": "cafa1f5cb5f28e198621ad4344ba5a9d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "symbol",
+                                    "desc_uz"
+                                ],
+                                "properties": {
+                                    "symbol": {
+                                        "type": "string",
+                                        "example": "↑"
+                                    },
+                                    "desc_uz": {
+                                        "type": "string"
+                                    },
+                                    "desc_ru": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "desc_en": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "desc_kaa": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Yaratildi"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chemical-reaction-symbols/{chemical_reaction_symbol}": {
+            "put": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Shartli belgini yangilash",
+                "operationId": "86ca168ca6eb78977d21d11d02b433a0",
+                "parameters": [
+                    {
+                        "name": "chemical_reaction_symbol",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    },
+                    "404": {
+                        "description": "Topilmadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Shartli belgini o‘chirish",
+                "operationId": "bdd6bebb3e33f8973641cbb5d3118fbb",
+                "parameters": [
+                    {
+                        "name": "chemical_reaction_symbol",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "O‘chirildi"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chemical-reaction-types": {
+            "post": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Kimyoviy reaksiya turini yaratish",
+                "operationId": "a2e079e70910d43a405183c52c7ecf2f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name_uz",
+                                    "formula",
+                                    "color_hex",
+                                    "icon_color_hex"
+                                ],
+                                "properties": {
+                                    "name_uz": {
+                                        "type": "string",
+                                        "example": "Birikish reaksiyasi"
+                                    },
+                                    "name_ru": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "name_en": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "name_kaa": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "A + B → AB"
+                                    },
+                                    "color_hex": {
+                                        "type": "string",
+                                        "example": "E8F5E9"
+                                    },
+                                    "icon_color_hex": {
+                                        "type": "string",
+                                        "example": "4CAF50"
+                                    },
+                                    "order": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Yaratildi"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/chemical-reaction-types/{chemical_reaction_type}": {
+            "put": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Reaksiya turini yangilash",
+                "operationId": "d1dc4dcff64e2187eb17edd0777d5cbb",
+                "parameters": [
+                    {
+                        "name": "chemical_reaction_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    },
+                    "404": {
+                        "description": "Topilmadi"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Chemical reactions"
+                ],
+                "summary": "Reaksiya turini o‘chirish",
+                "operationId": "37ec1050aded137acd55acc4dd319b5a",
+                "parameters": [
+                    {
+                        "name": "chemical_reaction_type",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "O‘chirildi"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiya talab qilinadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/dashboard/stats": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Tizim statistikalarini olish",
+                "operationId": "d87dd1b4d8881af3798cb3a56f1740ee",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "stats": {
+                                                    "properties": {
+                                                        "total_elements": {
+                                                            "type": "integer",
+                                                            "example": 118
+                                                        },
+                                                        "total_lessons": {
+                                                            "type": "integer",
+                                                            "example": 25
+                                                        },
+                                                        "total_formulas": {
+                                                            "type": "integer",
+                                                            "example": 50
+                                                        },
+                                                        "total_quizzes": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "total_users": {
+                                                            "type": "integer",
+                                                            "example": 150
+                                                        },
+                                                        "active_languages": {
+                                                            "type": "integer",
+                                                            "example": 3
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/dashboard/activity": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Oxirgi faolliklarni olish",
+                "operationId": "842bd3400ace8e1f310f93889cd676d9",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/elements": {
+            "get": {
+                "tags": [
+                    "Elements"
+                ],
+                "summary": "Barcha kimyoviy elementlar ro'yxatini olish",
+                "operationId": "b6a3bef97ea95d45cb95aaa91155c9d7",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "elements": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "atomic_number": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "symbol": {
+                                                                "type": "string",
+                                                                "example": "H"
+                                                            },
+                                                            "mass": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 1.008
+                                                            },
+                                                            "type": {
+                                                                "type": "string",
+                                                                "example": "nonmetal"
+                                                            },
+                                                            "color_hex": {
+                                                                "type": "string",
+                                                                "example": "#90CAF9"
+                                                            },
+                                                            "translations": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "language_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "Vodorod"
+                                                                        },
+                                                                        "description": {
+                                                                            "type": "string",
+                                                                            "example": "Eng yengil element"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Elements"
+                ],
+                "summary": "Yangi element qo'shish",
+                "operationId": "13ad5da217a5cdec3e08c1bbabf562df",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "atomic_number",
+                                    "symbol",
+                                    "mass",
+                                    "translations"
+                                ],
+                                "properties": {
+                                    "atomic_number": {
+                                        "type": "integer",
+                                        "example": 119
+                                    },
+                                    "symbol": {
+                                        "type": "string",
+                                        "example": "Uue"
+                                    },
+                                    "mass": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 315
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "example": "alkali"
+                                    },
+                                    "color_hex": {
+                                        "type": "string",
+                                        "example": "#FF8A80"
+                                    },
+                                    "translations": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "language_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Ununenniy"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Gipotetik element"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Element yaratildi"
+                    },
+                    "400": {
+                        "description": "Validatsiya xatosi"
+                    },
+                    "401": {
+                        "description": "Avtorizatsiyadan o'tilmagan"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/elements/{id}": {
+            "get": {
+                "tags": [
+                    "Elements"
+                ],
+                "summary": "Element ma'lumotlarini ID orqali olish",
+                "operationId": "09c8c3010b36df552fd69b6d49723dae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob"
+                    },
+                    "404": {
+                        "description": "Element topilmadi"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Elements"
+                ],
+                "summary": "Element ma'lumotlarini yangilash",
+                "operationId": "6115a537fa67d4126287f5546912669b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Element yangilandi"
+                    },
+                    "404": {
+                        "description": "Element topilmadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Elements"
+                ],
+                "summary": "Elementni o'chirish",
+                "operationId": "8592e2fc196c1ab815386415aeca2e5c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Element o'chirildi"
+                    },
+                    "404": {
+                        "description": "Element topilmadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/formulas": {
+            "get": {
+                "tags": [
+                    "Formulas"
+                ],
+                "summary": "Barcha kimyoviy formulalar ro'yxatini olish",
+                "operationId": "a6eeebcd1f5a722272acd5fea8078c64",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "formulas": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "formula": {
+                                                                "type": "string",
+                                                                "example": "H2O"
+                                                            },
+                                                            "molar_mass": {
+                                                                "type": "number",
+                                                                "format": "float",
+                                                                "example": 18.015
+                                                            },
+                                                            "category": {
+                                                                "type": "string",
+                                                                "example": "popular"
+                                                            },
+                                                            "translations": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string",
+                                                                            "example": "Suv"
+                                                                        },
+                                                                        "language_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "elements": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "symbol": {
+                                                                            "type": "string",
+                                                                            "example": "H"
+                                                                        },
+                                                                        "pivot": {
+                                                                            "properties": {
+                                                                                "amount": {
+                                                                                    "type": "integer",
+                                                                                    "example": 2
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Formulas"
+                ],
+                "summary": "Yangi formula yaratish",
+                "operationId": "bfb9d13c31cf83780741b21a2e351ec6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "formula",
+                                    "translations"
+                                ],
+                                "properties": {
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "H2O"
+                                    },
+                                    "molar_mass": {
+                                        "type": "number",
+                                        "example": 18.015
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "example": "popular"
+                                    },
+                                    "translations": {
+                                        "type": "object",
+                                        "example": {
+                                            "1": {
+                                                "name": "Suv"
+                                            },
+                                            "2": {
+                                                "name": "Вода"
+                                            }
+                                        },
+                                        "additionalProperties": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Suv"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "elements": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "element_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "amount": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Muvaffaqiyatli yaratildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/formulas/{id}": {
+            "get": {
+                "tags": [
+                    "Formulas"
+                ],
+                "summary": "Formula ma'lumotlarini olish",
+                "operationId": "bbebd0910bc4b5474bc3922c1b2fa4a0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli javob"
+                    },
+                    "404": {
+                        "description": "Topilmadi"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Formulas"
+                ],
+                "summary": "Formula ma'lumotlarini yangilash",
+                "operationId": "7d382a3cde364d371ac3b3f5d3e6a5cf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "formula": {
+                                        "type": "string",
+                                        "example": "H2O"
+                                    },
+                                    "molar_mass": {
+                                        "type": "number",
+                                        "example": 18.015
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "example": "popular"
+                                    },
+                                    "translations": {
+                                        "type": "object"
+                                    },
+                                    "elements": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "element_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "amount": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli yangilandi"
+                    },
+                    "404": {
+                        "description": "Topilmadi"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Formulas"
+                ],
+                "summary": "Formulani o'chirish",
+                "operationId": "eff0b6d442d873210b2c33b2e3384e56",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Muvaffaqiyatli o'chirildi"
+                    },
+                    "404": {
+                        "description": "Topilmadi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/auth/register": {
+            "post": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Ro'yxatdan o'tish",
+                "description": "Yangi mobil foydalanuvchi yaratish. Role avtomatik 'user' belgilanadi.",
+                "operationId": "194c6d3d46482952be70aa78128b554c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "username",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Ali Valiyev"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "example": "ellikqala_m2_9a_001"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "998901234567",
+                                        "nullable": true
+                                    },
+                                    "district": {
+                                        "type": "string",
+                                        "example": "Ellikkala tumani",
+                                        "nullable": true
+                                    },
+                                    "school_number": {
+                                        "type": "integer",
+                                        "example": 2,
+                                        "nullable": true
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Muvaffaqiyatli ro'yxatdan o'tildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Ali Valiyev"
+                                                        },
+                                                        "username": {
+                                                            "type": "string",
+                                                            "example": "ellikqala_m2_9a_001"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "role": {
+                                                            "type": "string",
+                                                            "example": "user"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abc123..."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation xatosi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "username": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The username has already been taken."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mobile/auth/login": {
+            "post": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Kirish (mobil foydalanuvchi)",
+                "description": "Mobil foydalanuvchi uchun login. Admin roli bilan kirish taqiqlangan.",
+                "operationId": "1c49dec15ed3ad7b635fdd1b2fae2d66",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "login",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "login": {
+                                        "type": "string",
+                                        "example": "ellikqala_m2_9a_001"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "secret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli kirildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Ali Valiyev"
+                                                        },
+                                                        "username": {
+                                                            "type": "string",
+                                                            "example": "ellikqala_m2_9a_001"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "role": {
+                                                            "type": "string",
+                                                            "example": "user"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "1|abc123..."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation xatosi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Login yoki parol noto'g'ri",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Login yoki parol noto'g'ri"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mobile/auth/logout": {
+            "post": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Chiqish",
+                "description": "Joriy access token-ni o'chiradi.",
+                "operationId": "c015f0ccc4bf506cc9653f52f53e9a38",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli chiqildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Autentifikatsiya talab qilinadi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/auth/me": {
+            "get": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Joriy foydalanuvchi",
+                "description": "Token orqali autentifikatsiya qilingan foydalanuvchi ma'lumotlarini qaytaradi.",
+                "operationId": "410d4dadaec596fe963dd2a233459e03",
+                "responses": {
+                    "200": {
+                        "description": "Foydalanuvchi ma'lumotlari",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Ali Valiyev"
+                                                        },
+                                                        "username": {
+                                                            "type": "string",
+                                                            "example": "ellikqala_m2_9a_001"
+                                                        },
+                                                        "email": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "phone": {
+                                                            "type": "string",
+                                                            "example": null,
+                                                            "nullable": true
+                                                        },
+                                                        "role": {
+                                                            "type": "string",
+                                                            "example": "user"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Autentifikatsiya talab qilinadi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/auth/profile": {
+            "put": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Profilni yangilash",
+                "description": "Profil: ism, telefon, ta'lim (maktab, sinf). Email mobil tahrirda qabul qilinmaydi.",
+                "operationId": "776aaf199e57c7107cf3e74108528a80",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Ali Valiyev"
+                                    },
+                                    "username": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "school_name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "grade": {
+                                        "type": "string",
+                                        "example": "9-sinf",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Yangilandi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/auth/password": {
+            "put": {
+                "tags": [
+                    "Mobile Auth"
+                ],
+                "summary": "Parolni almashtirish",
+                "description": "Joriy parol tekshiriladi; yangi parol `password_confirmation` bilan tasdiqlanadi.",
+                "operationId": "2f55197d1451a08aa4d9976406aeda22",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "current_password",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Parol yangilandi"
+                    },
+                    "422": {
+                        "description": "Validatsiya yoki joriy parol xato"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/reference/schools": {
+            "get": {
+                "tags": [
+                    "Mobile Reference"
+                ],
+                "summary": "Faol maktablar ro‘yxati",
+                "operationId": "e9ee7f41e7ba83de4dd406fc975d2a54",
+                "responses": {
+                    "200": {
+                        "description": "JSend success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Mobile Reference"
+                ],
+                "summary": "Yangi maktab (faqat admin)",
+                "operationId": "2ea9202bbc8aee9734bc34610ca786e0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "15-sonli maktab"
+                                    },
+                                    "short_name": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "region": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "is_active": {
+                                        "type": "boolean",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Yaratildi"
+                    },
+                    "403": {
+                        "description": "Admin emas"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/reference/grades": {
+            "get": {
+                "tags": [
+                    "Mobile Reference"
+                ],
+                "summary": "Sinf (grade) qiymatlari",
+                "operationId": "3458c01af95f24faa48434e2d0b1fc9f",
+                "responses": {
+                    "200": {
+                        "description": "JSend success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Mobile Reference"
+                ],
+                "summary": "Yangi sinf qiymati (faqat admin)",
+                "operationId": "82afee35163848bc5954d6e4ea93179a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "label"
+                                ],
+                                "properties": {
+                                    "label": {
+                                        "type": "string",
+                                        "example": "9-A"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Yaratildi"
+                    },
+                    "403": {
+                        "description": "Admin emas"
+                    },
+                    "422": {
+                        "description": "Validatsiya xatosi"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/reviews/summary": {
+            "get": {
+                "tags": [
+                    "Mobile Reviews"
+                ],
+                "summary": "Reyting xulosasi",
+                "description": "Ilovaning o'rtacha reytingi, jami baholashlar soni va yulduz bo'yicha taqsimot.",
+                "operationId": "29cbb539b0386e645ff05d04ed51e8e2",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "average_rating": {
+                                                    "type": "number",
+                                                    "format": "float",
+                                                    "example": 4.7
+                                                },
+                                                "total_reviews": {
+                                                    "type": "integer",
+                                                    "example": 128
+                                                },
+                                                "distribution": {
+                                                    "properties": {
+                                                        "5": {
+                                                            "type": "integer",
+                                                            "example": 80
+                                                        },
+                                                        "4": {
+                                                            "type": "integer",
+                                                            "example": 30
+                                                        },
+                                                        "3": {
+                                                            "type": "integer",
+                                                            "example": 10
+                                                        },
+                                                        "2": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "1": {
+                                                            "type": "integer",
+                                                            "example": 3
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/mobile/reviews/me": {
+            "get": {
+                "tags": [
+                    "Mobile Reviews"
+                ],
+                "summary": "Mening bahoam",
+                "description": "Sanctum token bilan joriy user uchun saqlangan review yoki null.",
+                "operationId": "6bc4abd10c6381cb40799b41688e79a2",
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "review": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "rating": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "comment": {
+                                                            "type": "string",
+                                                            "nullable": true
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        }
+                                                    },
+                                                    "type": "object",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Token yo‘q yoki yaroqsiz"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/mobile/reviews": {
+            "post": {
+                "tags": [
+                    "Mobile Reviews"
+                ],
+                "summary": "Ilovani baholash",
+                "description": "1–5 yulduz va ixtiyoriy izoh bilan baholash yuborish. Token bo'lsa user_id bog'lanadi, bo'lmasa anonim saqlanadi.",
+                "operationId": "c4c85bbd1382132bbef27472067a834a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "rating"
+                                ],
+                                "properties": {
+                                    "rating": {
+                                        "description": "1 dan 5 gacha yulduz",
+                                        "type": "integer",
+                                        "example": 5,
+                                        "maximum": 5,
+                                        "minimum": 1
+                                    },
+                                    "comment": {
+                                        "description": "Ixtiyoriy izoh",
+                                        "type": "string",
+                                        "example": "Juda yaxshi ilova!",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Baholash muvaffaqiyatli yuborildi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "review": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 42
+                                                        },
+                                                        "rating": {
+                                                            "type": "integer",
+                                                            "example": 5
+                                                        },
+                                                        "comment": {
+                                                            "type": "string",
+                                                            "example": "Juda yaxshi!",
+                                                            "nullable": true
+                                                        },
+                                                        "user_id": {
+                                                            "type": "integer",
+                                                            "example": 5,
+                                                            "nullable": true
+                                                        },
+                                                        "device_info": {
+                                                            "type": "string",
+                                                            "example": "Android 13 / SM-A525F"
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Validation xatosi",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "rating": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "The rating field is required."
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Foydalanuvchi allaqachon baholagan",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "fail"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Siz allaqachon baholagan siz."
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/documents": {
+            "get": {
+                "tags": [
+                    "Documents"
+                ],
+                "summary": "Hujjatlar ro'yxati (mobil + ochiq API)",
+                "operationId": "a3f72d0f1040078409cdb8a1ee21d40b",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Kategoriya bo'yicha filtrlash",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "decisions",
+                                "laws"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Muvaffaqiyatli",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "documents": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "category": {
+                                                                "type": "string",
+                                                                "example": "laws"
+                                                            },
+                                                            "title_uz": {
+                                                                "type": "string",
+                                                                "example": "Namuna"
+                                                            },
+                                                            "title_ru": {
+                                                                "type": "string",
+                                                                "nullable": true
+                                                            },
+                                                            "title_en": {
+                                                                "type": "string",
+                                                                "nullable": true
+                                                            },
+                                                            "file_path": {
+                                                                "type": "string",
+                                                                "example": "documents/x.pdf"
+                                                            },
+                                                            "file_url": {
+                                                                "type": "string",
+                                                                "example": "/storage/documents/x.pdf"
+                                                            },
+                                                            "is_active": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "sort_order": {
+                                                                "type": "integer",
+                                                                "example": 0
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Sanctum Bearer Token orqali autentifikatsiya",
+                "name": "Token",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            },
+            "MobileApiKey": {
+                "type": "apiKey",
+                "description": "Barcha so'rovlarda majburiy. Header: X-API-Key: <key>",
+                "name": "X-API-Key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Mobile Auth",
+            "description": "Mobil ilova uchun ro'yxatdan o'tish va kirish"
+        },
+        {
+            "name": "Mobile Reference",
+            "description": "Mobil ilova — maktab va sinf ro'yxatlari"
+        },
+        {
+            "name": "Mobile Reviews",
+            "description": "Mobil ilova — baholash (ilovani reyting qo'yish)"
+        },
+        {
+            "name": "Documents",
+            "description": "Ilova hujjatlari (PDF) — kategoriyalar, ko'p tilli sarlavhalar, fayl"
+        },
+        {
+            "name": "Chemical reactions",
+            "description": "Chemical reactions"
+        },
+        {
+            "name": "Dashboard",
+            "description": "Dashboard"
+        },
+        {
+            "name": "Elements",
+            "description": "Elements"
+        },
+        {
+            "name": "Formulas",
+            "description": "Formulas"
+        }
+    ]
+}

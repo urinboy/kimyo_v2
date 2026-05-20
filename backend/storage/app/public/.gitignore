@@ -1,0 +1,9 @@
+# Standart Laravel: barcha yuklamalarni ignore; quyidagi papkalar — loyiha aktivlari (repoda).
+*
+!.gitignore
+!authors/
+!authors/**
+!documents/
+!documents/**
+!task-questions/
+!task-questions/**

@@ -1,0 +1,1 @@
+import{t as e}from"./client-Dcmk8psO.js";var t={getAll:async()=>(await e.get(`/roles`)).data,create:async t=>(await e.post(`/roles`,t)).data,update:async(t,n)=>(await e.put(`/roles/${t}`,n)).data,delete:async t=>(await e.delete(`/roles/${t}`)).data};export{t};
