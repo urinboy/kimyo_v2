@@ -30,6 +30,7 @@ import {
   FolderKanban,
   ClipboardList,
   UserCog,
+  Video,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -71,7 +72,8 @@ function isKimyoPath(pathname: string): boolean {
     pathname.startsWith('/submissions') ||
     pathname.startsWith('/formulas') ||
     pathname.startsWith('/chemical-reactions') ||
-    pathname.startsWith('/lab-works')
+    pathname.startsWith('/lab-works') ||
+    pathname.startsWith('/videos')
   );
 }
 
@@ -247,6 +249,13 @@ export const Sidebar = ({ onLogout }: SidebarProps) => {
                   label={t('sidebar.lab_works')}
                   to="/lab-works"
                   active={location.pathname.startsWith('/lab-works')}
+                />
+                <SidebarItem
+                  compact
+                  icon={Video}
+                  label={t('sidebar.videos')}
+                  to="/videos"
+                  active={location.pathname.startsWith('/videos')}
                 />
               </div>
             )}

@@ -40,6 +40,13 @@ import 'core/services/learning_progress_service.dart';
 
 // Lab Works
 import 'presentation/bloc/lab_work_bloc.dart';
+// Videos
+import 'presentation/bloc/video_bloc.dart';
+import 'domain/usecases/get_videos.dart';
+import 'domain/usecases/get_video_detail.dart';
+import 'domain/repositories/video_repository.dart';
+import 'data/repositories/video_repository_impl.dart';
+import 'data/datasources/video_remote_datasource.dart';
 import 'domain/usecases/get_lab_works.dart';
 import 'domain/usecases/get_lab_work_detail.dart';
 import 'domain/repositories/lab_work_repository.dart';
@@ -59,6 +66,10 @@ Future<void> init() async {
         getLabWorks: sl(),
         getLabWorkDetail: sl(),
       ));
+  sl.registerFactory(() => VideoBloc(
+        getVideos: sl(),
+        getVideoDetail: sl(),
+      ));
 
   // Use cases
   sl.registerLazySingleton(() => GetElementsUseCase(sl()));
@@ -67,6 +78,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetFormulasUseCase(sl()));
   sl.registerLazySingleton(() => GetLabWorksUseCase(sl()));
   sl.registerLazySingleton(() => GetLabWorkDetailUseCase(sl()));
+  sl.registerLazySingleton(() => GetVideosUseCase(sl()));
+  sl.registerLazySingleton(() => GetVideoDetailUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<ElementRepository>(
@@ -91,6 +104,9 @@ Future<void> init() async {
   sl.registerLazySingleton<LabWorkRepository>(
     () => LabWorkRepositoryImpl(remoteDataSource: sl()),
   );
+  sl.registerLazySingleton<VideoRepository>(
+    () => VideoRepositoryImpl(remoteDataSource: sl()),
+  );
 
   // Data sources
   sl.registerLazySingleton<ElementBundledDataSource>(
@@ -114,6 +130,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<LabWorkRemoteDataSource>(
     () => LabWorkRemoteDataSourceImpl(dio: sl<DioClient>().dio),
+  );
+  sl.registerLazySingleton<VideoRemoteDataSource>(
+    () => VideoRemoteDataSourceImpl(dio: sl<DioClient>().dio),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<DioClient>().dio),

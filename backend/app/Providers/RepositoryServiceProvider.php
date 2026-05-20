@@ -82,6 +82,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Interfaces\LabWorkRepositoryInterface::class,
             \App\Repositories\Eloquent\LabWorkRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Interfaces\VideoRepositoryInterface::class,
+            \App\Repositories\Eloquent\VideoRepository::class
+        );
     }
 
     /**

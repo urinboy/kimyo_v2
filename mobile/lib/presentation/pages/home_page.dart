@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/theme/colors.dart';
-import '../../core/localization/app_localizations.dart';
 import '../../injection_container.dart';
-import '../bloc/lab_work_bloc.dart';
+import '../bloc/video_bloc.dart';
+import '../../core/localization/app_localizations.dart';
 import '../widgets/module_menu_list_cards.dart';
 import 'element_info_page.dart';
 import 'alkali_metals_list_page.dart';
@@ -15,7 +15,7 @@ import 'quiz_list_page.dart';
 import 'interesting_tasks_page.dart';
 import 'natural_resources_map_page.dart';
 import 'regional_minerals_page.dart';
-import 'lab_works_page.dart';
+import 'videos_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -110,6 +110,18 @@ class HomePage extends StatelessWidget {
                   MaterialPageRoute(builder: (_) => const ChemicalReactionsPage()),
                 ),
               ),
+              ModuleMenuSubItem(
+                title: context.tr('menu_videos'),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider(
+                      create: (_) => sl<VideoBloc>(),
+                      child: const VideosPage(),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -167,22 +179,6 @@ class HomePage extends StatelessWidget {
             onTap: () => Navigator.push(
               context,
               MaterialPageRoute(builder: (_) => const QuizListPage()),
-            ),
-          ),
-          const SizedBox(height: 12),
-          ModuleNavListCard(
-            title: context.tr('menu_lab_works'),
-            icon: Icons.science_outlined,
-            accentColor: _accent,
-            iconBackgroundLight: _iconBg,
-            onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => BlocProvider(
-                  create: (_) => sl<LabWorkBloc>(),
-                  child: const LabWorksPage(),
-                ),
-              ),
             ),
           ),
         ],

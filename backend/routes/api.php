@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\V1\AuthorExperienceController;
 use App\Http\Controllers\Api\V1\AuthorAdditionalInfoController;
 use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\LabWorkController;
+use App\Http\Controllers\Api\VideoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -107,6 +108,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('lab-works', [LabWorkController::class, 'index']);
     Route::get('lab-works/{id}', [LabWorkController::class, 'show'])->whereNumber('id');
 
+    // Videolar (YouTube) — GET ochiq
+    Route::get('videos', [VideoController::class, 'index']);
+    Route::get('videos/{id}', [VideoController::class, 'show'])->whereNumber('id');
+
     // Interesting tasks — GET ro‘yxat / bitta mavzu (token bo‘lsa admin: barchasi, token yo‘q: faqat faol)
     Route::middleware('sanctum.bearer')->group(function () {
         Route::get('interesting-tasks', [InterestingTaskController::class, 'listTasks']);
@@ -157,6 +162,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         Route::post('lab-works', [LabWorkController::class, 'store']);
         Route::put('lab-works/{id}', [LabWorkController::class, 'update'])->whereNumber('id');
         Route::delete('lab-works/{id}', [LabWorkController::class, 'destroy'])->whereNumber('id');
+
+        Route::post('videos', [VideoController::class, 'store']);
+        Route::put('videos/{id}', [VideoController::class, 'update'])->whereNumber('id');
+        Route::delete('videos/{id}', [VideoController::class, 'destroy'])->whereNumber('id');
 
         // Dashboard
         Route::get('dashboard/stats', [DashboardController::class, 'stats']);

@@ -70,7 +70,28 @@
     "logout": "Chiqish",
     "interesting_tasks": "Qiziqarli topshiriqlar",
     "submissions": "Javoblar tekshiruvi",
-    "lab_works": "Laboratoriya ishlari"
+    "lab_works": "Laboratoriya ishlari",
+    "videos": "Videolar"
+  },
+  "videos": {
+    "page_title": "Videolar",
+    "page_subtitle": "YouTube havolalari orqali dars videolari",
+    "add_button": "Video qo'shish",
+    "add_title": "Yangi video",
+    "edit_title": "Videoni tahrirlash",
+    "youtube_url": "YouTube havolasi",
+    "invalid_url": "Havola yoki video ID noto'g'ri",
+    "channel_name": "Kanal nomi",
+    "channel_placeholder": "Masalan: Kimyo darslari",
+    "sort_order": "Tartib (yuqori — tepada)",
+    "is_active": "Faol (mobilda ko'rinadi)",
+    "title_label": "Sarlavha",
+    "description_label": "Tavsif",
+    "empty": "Hali video qo'shilmagan",
+    "active": "Faol",
+    "inactive": "Nofaol",
+    "deleted": "Video o'chirildi",
+    "delete_confirm": "Ushbu videoni o'chirmoqchimisiz?"
   },
   "languages": {
     "title": "Tillar",

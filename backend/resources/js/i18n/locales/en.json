@@ -66,7 +66,28 @@
     "districts": "Districts",
     "settings": "Settings",
     "logout": "Logout",
-    "lab_works": "Lab Works"
+    "lab_works": "Lab Works",
+    "videos": "Videos"
+  },
+  "videos": {
+    "page_title": "Videos",
+    "page_subtitle": "Lesson videos via YouTube links",
+    "add_button": "Add video",
+    "add_title": "New video",
+    "edit_title": "Edit video",
+    "youtube_url": "YouTube URL",
+    "invalid_url": "Invalid URL or video ID",
+    "channel_name": "Channel name",
+    "channel_placeholder": "e.g. Chemistry lessons",
+    "sort_order": "Sort order (higher = top)",
+    "is_active": "Active (visible in app)",
+    "title_label": "Title",
+    "description_label": "Description",
+    "empty": "No videos yet",
+    "active": "Active",
+    "inactive": "Inactive",
+    "deleted": "Video deleted",
+    "delete_confirm": "Delete this video?"
   },
   "languages": {
     "title": "Languages",

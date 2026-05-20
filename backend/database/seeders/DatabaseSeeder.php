@@ -39,6 +39,7 @@ class DatabaseSeeder extends Seeder
             LessonProjectsSeeder::class,
             DocumentSeeder::class,
             LabWorkSeeder::class,
+            VideoSeeder::class,
         ]);
     }
 }
