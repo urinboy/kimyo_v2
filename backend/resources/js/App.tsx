@@ -39,6 +39,7 @@ const InterestingTasksPage = lazy(() => import('./pages/interestingTasks/Interes
 const SubmissionsPage = lazy(() => import('./pages/interestingTasks/SubmissionsPage'));
 const LabWorksPage = lazy(() => import('./pages/LabWorksPage'));
 const VideosPage = lazy(() => import('./pages/videos/VideosPage'));
+const ThreeDModelsPage = lazy(() => import('./pages/threeDModels/ThreeDModelsPage'));
 
 function RouteFallback() {
   return (
@@ -121,6 +122,7 @@ function MainContent() {
           <Route path="/submissions" element={<SubmissionsPage />} />
           <Route path="/lab-works" element={<LabWorksPage />} />
           <Route path="/videos" element={<VideosPage />} />
+          <Route path="/3d-models" element={<ThreeDModelsPage />} />
           <Route path="*" element={<ErrorPage code="404" />} />
         </Routes>
       </Suspense>

@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\V1\AuthorAdditionalInfoController;
 use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\LabWorkController;
 use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\ThreeDModelController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -112,6 +113,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
     Route::get('videos', [VideoController::class, 'index']);
     Route::get('videos/{id}', [VideoController::class, 'show'])->whereNumber('id');
 
+    // 3D modellar — GET ochiq (mobil uchun)
+    Route::get('3d-models', [ThreeDModelController::class, 'index']);
+    Route::get('3d-models/{id}', [ThreeDModelController::class, 'show'])->whereNumber('id');
+
     // Interesting tasks — GET ro‘yxat / bitta mavzu (token bo‘lsa admin: barchasi, token yo‘q: faqat faol)
     Route::middleware('sanctum.bearer')->group(function () {
         Route::get('interesting-tasks', [InterestingTaskController::class, 'listTasks']);
@@ -164,8 +169,15 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         Route::delete('lab-works/{id}', [LabWorkController::class, 'destroy'])->whereNumber('id');
 
         Route::post('videos', [VideoController::class, 'store']);
+        Route::post('videos/{id}', [VideoController::class, 'update'])->whereNumber('id'); // multipart + _method=PUT
         Route::put('videos/{id}', [VideoController::class, 'update'])->whereNumber('id');
         Route::delete('videos/{id}', [VideoController::class, 'destroy'])->whereNumber('id');
+
+        // 3D modellar — CUD faqat admin
+        Route::post('3d-models', [ThreeDModelController::class, 'store']);
+        Route::post('3d-models/{id}', [ThreeDModelController::class, 'update'])->whereNumber('id'); // multipart workaround
+        Route::put('3d-models/{id}', [ThreeDModelController::class, 'update'])->whereNumber('id');
+        Route::delete('3d-models/{id}', [ThreeDModelController::class, 'destroy'])->whereNumber('id');
 
         // Dashboard
         Route::get('dashboard/stats', [DashboardController::class, 'stats']);

@@ -31,6 +31,7 @@ import {
   ClipboardList,
   UserCog,
   Video,
+  Box,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -73,7 +74,8 @@ function isKimyoPath(pathname: string): boolean {
     pathname.startsWith('/formulas') ||
     pathname.startsWith('/chemical-reactions') ||
     pathname.startsWith('/lab-works') ||
-    pathname.startsWith('/videos')
+    pathname.startsWith('/videos') ||
+    pathname.startsWith('/3d-models')
   );
 }
 
@@ -256,6 +258,13 @@ export const Sidebar = ({ onLogout }: SidebarProps) => {
                   label={t('sidebar.videos')}
                   to="/videos"
                   active={location.pathname.startsWith('/videos')}
+                />
+                <SidebarItem
+                  compact
+                  icon={Box}
+                  label={t('sidebar.three_d_models')}
+                  to="/3d-models"
+                  active={location.pathname.startsWith('/3d-models')}
                 />
               </div>
             )}

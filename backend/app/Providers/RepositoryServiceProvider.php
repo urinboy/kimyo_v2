@@ -87,6 +87,11 @@ class RepositoryServiceProvider extends ServiceProvider
             \App\Repositories\Interfaces\VideoRepositoryInterface::class,
             \App\Repositories\Eloquent\VideoRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Interfaces\ThreeDModelRepositoryInterface::class,
+            \App\Repositories\Eloquent\ThreeDModelRepository::class
+        );
     }
 
     /**
