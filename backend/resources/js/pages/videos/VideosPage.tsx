@@ -54,7 +54,8 @@ export default function VideosPage() {
   const titleFor = (v: AppVideo) =>
     v.translations.find((tr) => tr.language_code === 'uz')?.title
     ?? v.translations[0]?.title
-    ?? v.youtube_video_id;
+    ?? v.youtube_video_id
+    ?? `Video #${v.id}`;
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-6 duration-700">
@@ -97,15 +98,21 @@ export default function VideosPage() {
                 key={v.id}
                 className="flex items-center gap-4 px-6 py-4 hover:bg-black/[0.02] dark:hover:bg-white/[0.02]"
               >
-                <img
-                  src={v.thumbnail_url}
-                  alt=""
-                  className="w-28 h-16 object-cover rounded-xl shrink-0 bg-black/5"
-                />
+                {v.thumbnail_url ? (
+                  <img
+                    src={v.thumbnail_url}
+                    alt=""
+                    className="w-28 h-16 object-cover rounded-xl shrink-0 bg-black/5"
+                  />
+                ) : (
+                  <div className="w-28 h-16 rounded-xl shrink-0 bg-purple-500/10 flex items-center justify-center">
+                    <Video className="w-6 h-6 text-purple-400" />
+                  </div>
+                )}
                 <div className="flex-1 min-w-0">
                   <p className="font-semibold text-app-primary truncate">{titleFor(v)}</p>
                   <p className="text-caption truncate">
-                    {v.channel_name || '—'} · {v.youtube_video_id}
+                    {v.channel_name || '—'} · {v.video_path ? '📁 Server video' : v.youtube_video_id}
                   </p>
                   <span
                     className={`text-xs font-bold px-2 py-0.5 rounded-lg inline-block mt-1 ${
@@ -118,15 +125,17 @@ export default function VideosPage() {
                   </span>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <a
-                    href={v.youtube_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10"
-                    title="YouTube"
-                  >
-                    <Play className="w-4 h-4" />
-                  </a>
+                  {(v.youtube_url || v.video_url) && (
+                    <a
+                      href={v.video_url ?? v.youtube_url ?? '#'}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10"
+                      title={v.video_url ? 'Video (server)' : 'YouTube'}
+                    >
+                      <Play className="w-4 h-4" />
+                    </a>
+                  )}
                   <button
                     type="button"
                     onClick={() => {

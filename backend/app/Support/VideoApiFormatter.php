@@ -4,6 +4,7 @@ namespace App\Support;
 
 use App\Models\Video;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class VideoApiFormatter
 {
@@ -32,16 +33,32 @@ class VideoApiFormatter
         return [
             'id'               => $video->id,
             'youtube_video_id' => $video->youtube_video_id,
-            'youtube_url'      => $video->youtube_url ?? YouTubeHelper::canonicalUrl($video->youtube_video_id),
+            'youtube_url'      => $video->youtube_url
+                ?? ($video->youtube_video_id ? YouTubeHelper::canonicalUrl($video->youtube_video_id) : null),
+            'video_url'        => self::resolveVideoUrl($video),
             'channel_name'     => $video->channel_name,
             'title'            => $t?->title ?? '',
             'description'      => $t?->description,
-            'thumbnail_url'    => YouTubeHelper::thumbnailUrl($video->youtube_video_id),
-            'embed_url'        => YouTubeHelper::embedUrl($video->youtube_video_id),
+            'thumbnail_url'    => $video->youtube_video_id
+                ? YouTubeHelper::thumbnailUrl($video->youtube_video_id)
+                : null,
+            'embed_url'        => $video->youtube_video_id
+                ? YouTubeHelper::embedUrl($video->youtube_video_id)
+                : null,
             'sort_order'       => $video->sort_order,
             'is_active'        => $video->is_active,
             'published_at'     => $video->created_at?->toIso8601String(),
         ];
+    }
+
+    /** Server-da saqlangan video uchun to'liq URL qaytaradi */
+    private static function resolveVideoUrl(Video $video): ?string
+    {
+        if (! $video->video_path) {
+            return null;
+        }
+
+        return Storage::disk('public')->url($video->video_path);
     }
 
     public static function detail(Video $video, ?string $lang = null): array
@@ -62,8 +79,12 @@ class VideoApiFormatter
             'id'               => $video->id,
             'youtube_video_id' => $video->youtube_video_id,
             'youtube_url'      => $video->youtube_url,
+            'video_path'       => $video->video_path,
+            'video_url'        => self::resolveVideoUrl($video),
             'channel_name'     => $video->channel_name,
-            'thumbnail_url'    => YouTubeHelper::thumbnailUrl($video->youtube_video_id),
+            'thumbnail_url'    => $video->youtube_video_id
+                ? YouTubeHelper::thumbnailUrl($video->youtube_video_id)
+                : null,
             'sort_order'       => $video->sort_order,
             'is_active'        => $video->is_active,
             'created_at'       => $video->created_at?->toIso8601String(),

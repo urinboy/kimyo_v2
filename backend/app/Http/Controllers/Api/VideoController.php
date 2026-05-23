@@ -8,10 +8,12 @@ use App\Support\VideoApiFormatter;
 use App\Support\YouTubeHelper;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use OpenApi\Attributes as OA;
 
-#[OA\Tag(name: 'Videos', description: 'YouTube videolar (admin CRUD, mobil ro\'yxat)')]
+#[OA\Tag(name: 'Videos', description: 'YouTube yoki server-hosted videolar')]
 class VideoController extends Controller
 {
     public function __construct(
@@ -84,10 +86,41 @@ class VideoController extends Controller
         );
     }
 
-    #[OA\Post(path: '/api/v1/videos', summary: 'Yangi video', tags: ['Videos'], responses: [new OA\Response(response: 201, description: 'Yaratildi')])]
+    #[OA\Post(
+        path: '/api/v1/videos',
+        summary: 'Yangi video (YouTube URL yoki video fayl)',
+        tags: ['Videos'],
+        responses: [new OA\Response(response: 201, description: 'Yaratildi')]
+    )]
     public function store(Request $request): JsonResponse
     {
-        $data = $this->validatePayload($request);
+        $v = Validator::make($request->all(), [
+            'youtube_url'                  => 'nullable|string|max:512',
+            'video_file'                   => 'nullable|file|mimes:mp4,webm,avi,mov,mkv|max:524288', // 512 MB
+            'channel_name'                 => 'nullable|string|max:255',
+            'sort_order'                   => 'nullable|integer|min:0',
+            'is_active'                    => 'nullable|boolean',
+            'translations'                 => 'required|array|min:1',
+            'translations.*.language_code' => 'nullable|string',
+            'translations.*.language_id'   => 'nullable|integer',
+            'translations.*.title'         => 'required|string|max:500',
+            'translations.*.description'   => 'nullable|string',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json(['status' => 'fail', 'data' => $v->errors()], 422);
+        }
+
+        // YouTube yoki video fayl — kamida biri bo'lishi kerak
+        if (! $request->hasFile('video_file') && ! $request->filled('youtube_url')) {
+            return response()->json([
+                'status' => 'fail',
+                'data'   => ['source' => ['YouTube URL yoki video fayl kerak']],
+            ], 422);
+        }
+
+        $data = $v->validated();
+        $data = $this->resolveVideoSource($request, $data);
         if ($data instanceof JsonResponse) {
             return $data;
         }
@@ -102,12 +135,61 @@ class VideoController extends Controller
         );
     }
 
-    #[OA\Put(path: '/api/v1/videos/{id}', summary: 'Videoni yangilash', tags: ['Videos'], responses: [new OA\Response(response: 200, description: 'OK')])]
+    #[OA\Post(
+        path: '/api/v1/videos/{id}',
+        summary: 'Videoni yangilash (multipart yoki JSON)',
+        tags: ['Videos'],
+        responses: [new OA\Response(response: 200, description: 'OK')]
+    )]
     public function update(Request $request, int $id): JsonResponse
     {
-        $data = $this->validatePayload($request, false);
-        if ($data instanceof JsonResponse) {
-            return $data;
+        $v = Validator::make($request->all(), [
+            'youtube_url'                  => 'nullable|string|max:512',
+            'video_file'                   => 'nullable|file|mimes:mp4,webm,avi,mov,mkv|max:524288',
+            'remove_video_file'            => 'nullable|boolean',
+            'channel_name'                 => 'nullable|string|max:255',
+            'sort_order'                   => 'nullable|integer|min:0',
+            'is_active'                    => 'nullable|boolean',
+            'translations'                 => 'sometimes|array|min:1',
+            'translations.*.language_code' => 'nullable|string',
+            'translations.*.language_id'   => 'nullable|integer',
+            'translations.*.title'         => 'required|string|max:500',
+            'translations.*.description'   => 'nullable|string',
+        ]);
+
+        if ($v->fails()) {
+            return response()->json(['status' => 'fail', 'data' => $v->errors()], 422);
+        }
+
+        $data = $v->validated();
+
+        // Yangi video fayl yuklangan bo'lsa storage ga saqlaymiz
+        if ($request->hasFile('video_file')) {
+            $path = $this->storeVideoFile($request);
+            if ($path instanceof JsonResponse) {
+                return $path;
+            }
+            $data['video_path'] = $path;
+        } elseif ($request->boolean('remove_video_file')) {
+            $data['video_path'] = null;
+        }
+
+        // YouTube URL yangilanayotgan bo'lsa ID ni ajratamiz
+        if (isset($data['youtube_url'])) {
+            if ($data['youtube_url']) {
+                $videoId = YouTubeHelper::extractVideoId($data['youtube_url']);
+                if (! $videoId) {
+                    return response()->json([
+                        'status' => 'fail',
+                        'data'   => ['youtube_url' => ['YouTube havolasi noto\'g\'ri']],
+                    ], 422);
+                }
+                $data['youtube_video_id'] = $videoId;
+                $data['youtube_url']      = YouTubeHelper::canonicalUrl($videoId);
+            } else {
+                $data['youtube_video_id'] = null;
+                $data['youtube_url']      = null;
+            }
         }
 
         $video = $this->repository->update($id, $data);
@@ -133,39 +215,46 @@ class VideoController extends Controller
         return response()->json(['status' => 'success', 'data' => null]);
     }
 
-    private function validatePayload(Request $request, bool $requireUrl = true): array|JsonResponse
-    {
-        $v = Validator::make($request->all(), [
-            'youtube_url'                  => ($requireUrl ? 'required' : 'sometimes').'|string|max:512',
-            'channel_name'                 => 'nullable|string|max:255',
-            'sort_order'                   => 'nullable|integer|min:0',
-            'is_active'                    => 'nullable|boolean',
-            'translations'                 => ($requireUrl ? 'required' : 'sometimes').'|array|min:1',
-            'translations.*.language_code' => 'nullable|string',
-            'translations.*.language_id'   => 'nullable|integer',
-            'translations.*.title'         => 'required|string|max:500',
-            'translations.*.description'   => 'nullable|string',
-        ]);
+    // ─── Helpers ─────────────────────────────────────────────────────────────
 
-        if ($v->fails()) {
-            return response()->json(['status' => 'fail', 'data' => $v->errors()], 422);
+    private function resolveVideoSource(Request $request, array $data): array|JsonResponse
+    {
+        if ($request->hasFile('video_file')) {
+            $path = $this->storeVideoFile($request);
+            if ($path instanceof JsonResponse) {
+                return $path;
+            }
+            $data['video_path'] = $path;
         }
 
-        $validated = $v->validated();
-        $urlInput = $validated['youtube_url'] ?? null;
-
-        if ($urlInput !== null) {
-            $videoId = YouTubeHelper::extractVideoId($urlInput);
+        if (! empty($data['youtube_url'])) {
+            $videoId = YouTubeHelper::extractVideoId($data['youtube_url']);
             if (! $videoId) {
                 return response()->json([
                     'status' => 'fail',
                     'data'   => ['youtube_url' => ['YouTube havolasi yoki video ID noto\'g\'ri']],
                 ], 422);
             }
-            $validated['youtube_video_id'] = $videoId;
-            $validated['youtube_url'] = YouTubeHelper::canonicalUrl($videoId);
+            $data['youtube_video_id'] = $videoId;
+            $data['youtube_url']      = YouTubeHelper::canonicalUrl($videoId);
         }
 
-        return $validated;
+        return $data;
+    }
+
+    private function storeVideoFile(Request $request): string|JsonResponse
+    {
+        $file = $request->file('video_file');
+        if (! $file || ! $file->isValid()) {
+            return response()->json([
+                'status' => 'fail',
+                'data'   => ['video_file' => ['Fayl yuklanmadi yoki buzilgan']],
+            ], 422);
+        }
+
+        $filename = Str::uuid().'.'.$file->getClientOriginalExtension();
+        $path     = $file->storeAs('videos', $filename, 'public');
+
+        return $path; // e.g. "videos/uuid.mp4"
     }
 }
