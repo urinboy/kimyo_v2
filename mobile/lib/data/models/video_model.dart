@@ -3,13 +3,14 @@ import '../../domain/entities/video.dart';
 class VideoModel extends VideoEntity {
   const VideoModel({
     required super.id,
-    required super.youtubeVideoId,
-    required super.youtubeUrl,
+    super.youtubeVideoId,
+    super.youtubeUrl,
+    super.videoUrl,
     super.channelName,
     required super.title,
     super.description,
-    required super.thumbnailUrl,
-    required super.embedUrl,
+    super.thumbnailUrl,
+    super.embedUrl,
     super.publishedAt,
   });
 
@@ -22,13 +23,14 @@ class VideoModel extends VideoEntity {
 
     return VideoModel(
       id: json['id'] as int,
-      youtubeVideoId: json['youtube_video_id'] as String,
-      youtubeUrl: json['youtube_url'] as String? ?? '',
+      youtubeVideoId: json['youtube_video_id'] as String?,
+      youtubeUrl: json['youtube_url'] as String?,
+      videoUrl: json['video_url'] as String?,
       channelName: json['channel_name'] as String?,
       title: json['title'] as String? ?? '',
       description: json['description'] as String?,
-      thumbnailUrl: json['thumbnail_url'] as String? ?? '',
-      embedUrl: json['embed_url'] as String? ?? '',
+      thumbnailUrl: json['thumbnail_url'] as String?,
+      embedUrl: json['embed_url'] as String?,
       publishedAt: published,
     );
   }
