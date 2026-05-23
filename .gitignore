@@ -37,3 +37,6 @@ mobile/assets/env/mobile_api.env
 
 # Flutter mahalliy artefaktlar
 **/.flutter-plugins-dependencies
+
+# 3D model manba fayllar (GitHub 100MB limit)
+3d_models/
