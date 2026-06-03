@@ -13,6 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
+            'auth' => \App\Http\Middleware\Authenticate::class,
             'api.key' => \App\Http\Middleware\ValidateApiKey::class,
             'sanctum.bearer' => \App\Http\Middleware\AttachSanctumUserFromBearerIfPresent::class,
         ]);
@@ -21,5 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // API so'rovlari uchun: sessiya redirect ('login' route) o'rniga 401 JSON
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, \Illuminate\Http\Request $request) {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                return response()->json([
+                    'message' => $e->getMessage() ?: 'Unauthenticated.',
+                ], 401);
+            }
+        });
     })->create();
