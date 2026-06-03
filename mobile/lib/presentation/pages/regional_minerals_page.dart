@@ -1,7 +1,8 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../../core/localization/app_localizations.dart';
 import '../../core/theme/colors.dart';
@@ -18,7 +19,7 @@ class RegionalMineralsPage extends StatefulWidget {
 
 class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
   late String _selectedName;
-  GoogleMapController? _mapController;
+  final MapController _mapController = MapController();
 
   static const LatLng _initialTarget = LatLng(43.65, 59.2);
   static const double _initialZoom = 6.6;
@@ -31,6 +32,7 @@ class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
   void initState() {
     super.initState();
     _selectedName = regionalMinerals.first.name;
+    _scheduleFitToSelection();
   }
 
   void _scheduleFitToSelection() {
@@ -40,9 +42,8 @@ class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
     });
   }
 
-  Future<void> _fitMapToSelectedMineral() async {
-    final ctrl = _mapController;
-    if (ctrl == null || !mounted) return;
+  void _fitMapToSelectedMineral() {
+    if (!mounted) return;
 
     RegionalMineral? mineral;
     for (final m in regionalMinerals) {
@@ -58,74 +59,46 @@ class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
         .toList();
 
     if (pts.length == 1) {
-      await ctrl.animateCamera(
-        CameraUpdate.newLatLngZoom(pts.first, _singlePointZoom),
-      );
+      _mapController.move(pts.first, _singlePointZoom);
       return;
     }
 
-    var minLat = pts.first.latitude;
-    var maxLat = pts.first.latitude;
-    var minLng = pts.first.longitude;
-    var maxLng = pts.first.longitude;
-    for (final p in pts.skip(1)) {
-      minLat = math.min(minLat, p.latitude);
-      maxLat = math.max(maxLat, p.latitude);
-      minLng = math.min(minLng, p.longitude);
-      maxLng = math.max(maxLng, p.longitude);
-    }
-    const eps = 0.002;
-    if ((maxLat - minLat).abs() < 1e-6) {
-      minLat -= eps;
-      maxLat += eps;
-    }
-    if ((maxLng - minLng).abs() < 1e-6) {
-      minLng -= eps;
-      maxLng += eps;
-    }
-
-    final bounds = LatLngBounds(
-      southwest: LatLng(minLat, minLng),
-      northeast: LatLng(maxLat, maxLng),
+    _mapController.fitCamera(
+      CameraFit.bounds(
+        bounds: LatLngBounds.fromPoints(pts),
+        padding: const EdgeInsets.all(_boundsPaddingPx),
+      ),
     );
-
-    try {
-      await ctrl.animateCamera(
-        CameraUpdate.newLatLngBounds(bounds, _boundsPaddingPx),
-      );
-    } catch (_) {
-      await ctrl.animateCamera(
-        CameraUpdate.newLatLngZoom(pts.first, _singlePointZoom),
-      );
-    }
   }
 
-  Future<void> _zoomBy(double delta) async {
-    final ctrl = _mapController;
-    if (ctrl == null) return;
-    final z = await ctrl.getZoomLevel();
+  void _zoomBy(double delta) {
+    final z = _mapController.camera.zoom;
     final next = (z + delta).clamp(_mapMinZoom, _mapMaxZoom);
     if (next == z) return;
-    await ctrl.animateCamera(CameraUpdate.zoomTo(next));
+    _mapController.move(_mapController.camera.center, next);
   }
 
-  Set<Marker> _googleMarkers(BuildContext context) {
+  List<Marker> _mapMarkers(BuildContext context) {
     final quantityLabel = context.tr('regional_minerals_quantity_label');
-    final markers = <Marker>{};
+    final markers = <Marker>[];
     for (final m in regionalMinerals) {
       if (m.name != _selectedName) continue;
       for (final loc in m.locations) {
         final lat = loc['latitude']!;
         final lng = loc['longitude']!;
-        final id = '${m.name}_${lat}_$lng';
         markers.add(
           Marker(
-            markerId: MarkerId(id),
-            position: LatLng(lat, lng),
-            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet),
-            infoWindow: InfoWindow(
-              title: m.name,
-              snippet: '$quantityLabel: ${m.quantity}',
+            point: LatLng(lat, lng),
+            width: 40,
+            height: 40,
+            child: Tooltip(
+              message: '${m.name}\n$quantityLabel: ${m.quantity}',
+              triggerMode: TooltipTriggerMode.tap,
+              child: const Icon(
+                Icons.location_on_rounded,
+                color: AppColors.primaryPurple,
+                size: 38,
+              ),
             ),
           ),
         );
@@ -137,7 +110,6 @@ class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final markers = _googleMarkers(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -171,24 +143,28 @@ class _RegionalMineralsPageState extends State<RegionalMineralsPage> {
                     clipBehavior: Clip.antiAlias,
                     child: Stack(
                       children: [
-                        GoogleMap(
-                          initialCameraPosition: const CameraPosition(
-                            target: _initialTarget,
-                            zoom: _initialZoom,
+                        FlutterMap(
+                          mapController: _mapController,
+                          options: MapOptions(
+                            initialCenter: _initialTarget,
+                            initialZoom: _initialZoom,
+                            minZoom: _mapMinZoom,
+                            maxZoom: _mapMaxZoom,
+                            interactionOptions: const InteractionOptions(
+                              flags: InteractiveFlag.all & ~InteractiveFlag.rotate,
+                            ),
                           ),
-                          mapType: MapType.normal,
-                          markers: markers,
-                          minMaxZoomPreference: const MinMaxZoomPreference(
-                            _mapMinZoom,
-                            _mapMaxZoom,
-                          ),
-                          zoomControlsEnabled: false,
-                          myLocationButtonEnabled: false,
-                          compassEnabled: true,
-                          onMapCreated: (c) {
-                            _mapController = c;
-                            _scheduleFitToSelection();
-                          },
+                          children: [
+                            TileLayer(
+                              urlTemplate: isDark
+                                  ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+                                  : 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+                              subdomains: const ['a', 'b', 'c', 'd'],
+                            ),
+                            MarkerLayer(
+                              markers: _mapMarkers(context),
+                            ),
+                          ],
                         ),
                         Positioned(
                           left: 8,

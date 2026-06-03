@@ -88,6 +88,7 @@ class _UnifiedVideoPlayerState extends State<UnifiedVideoPlayer> {
         showFullscreenButton: true,
         mute: false,
         enableJavaScript: true,
+        origin: 'https://www.youtube-nocookie.com',
       ),
     );
 

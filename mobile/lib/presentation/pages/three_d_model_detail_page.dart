@@ -23,6 +23,20 @@ class ThreeDModelDetailPage extends StatefulWidget {
 }
 
 class _ThreeDModelDetailPageState extends State<ThreeDModelDetailPage> {
+  String _resolveModelUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri != null) {
+      if (uri.host == '127.0.0.1' || uri.host == 'localhost' || uri.host == '10.0.2.2') {
+        return uri.replace(
+          scheme: 'https',
+          host: 'kimyo.itorda.uz',
+          port: null,
+        ).toString();
+      }
+    }
+    return url;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -88,7 +102,7 @@ class _ThreeDModelDetailPageState extends State<ThreeDModelDetailPage> {
                             child: AspectRatio(
                               aspectRatio: 1.15,
                               child: ModelViewer(
-                                src: model.modelUrl!,
+                                src: _resolveModelUrl(model.modelUrl!),
                                 autoRotate: true,
                                 cameraControls: true,
                                 ar: true,
