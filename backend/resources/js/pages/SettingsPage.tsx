@@ -59,6 +59,7 @@ const SettingsPage = () => {
   const [editingInfo, setEditingInfo] = useState<Partial<AuthorAdditionalInfo> | null>(null);
   const [expFormLang, setExpFormLang] = useState<SettingsLang>('uz');
   const [infoFormLang, setInfoFormLang] = useState<SettingsLang>('uz');
+  const [aboutLang, setAboutLang] = useState<'uz' | 'ru' | 'en'>('uz');
 
   const { data: settingsData, isLoading: isSettingsLoading } = useQuery({
     queryKey: ['settings'],
@@ -271,41 +272,67 @@ const SettingsPage = () => {
                 </GlassCard>
 
                 <GlassCard className="md:col-span-2">
-                  <h3 className="text-lg font-bold mb-6 flex items-center gap-2">
-                    <Globe className="w-5 h-5 text-purple-500" />
-                    {t('settings.section_about')}
-                  </h3>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                    <h3 className="text-lg font-bold flex items-center gap-2">
+                      <Globe className="w-5 h-5 text-purple-500" />
+                      {t('settings.section_about')}
+                    </h3>
+                    <div className="flex gap-1 p-1 rounded-2xl bg-black/[0.04] dark:bg-white/5 border border-black/10 dark:border-white/10 w-fit">
+                      {(['uz', 'ru', 'en'] as const).map((code) => (
+                        <button
+                          key={code}
+                          type="button"
+                          onClick={() => setAboutLang(code)}
+                          className={cn(
+                            'flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition-all',
+                            aboutLang === code
+                              ? 'bg-purple-500 text-white shadow-md shadow-purple-500/20'
+                              : 'text-app-muted hover:text-app-primary hover:bg-black/5 dark:hover:bg-white/5',
+                          )}
+                        >
+                          <LanguageFlag code={code} size="sm" className="shrink-0" />
+                          {code.toUpperCase()}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                   <div className="space-y-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.uz')}</label>
-                      <textarea
-                        name="about_app_uz"
-                        rows={4}
-                        value={formData.about_app_uz || ''}
-                        onChange={handleInputChange}
-                        className="input-glass resize-none"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.ru')}</label>
-                      <textarea
-                        name="about_app_ru"
-                        rows={4}
-                        value={formData.about_app_ru || ''}
-                        onChange={handleInputChange}
-                        className="input-glass resize-none"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.en')}</label>
-                      <textarea
-                        name="about_app_en"
-                        rows={4}
-                        value={formData.about_app_en || ''}
-                        onChange={handleInputChange}
-                        className="input-glass resize-none"
-                      />
-                    </div>
+                    {aboutLang === 'uz' && (
+                      <div className="space-y-2 animate-in fade-in duration-300">
+                        <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.uz')}</label>
+                        <textarea
+                          name="about_app_uz"
+                          rows={6}
+                          value={formData.about_app_uz || ''}
+                          onChange={handleInputChange}
+                          className="input-glass resize-none"
+                        />
+                      </div>
+                    )}
+                    {aboutLang === 'ru' && (
+                      <div className="space-y-2 animate-in fade-in duration-300">
+                        <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.ru')}</label>
+                        <textarea
+                          name="about_app_ru"
+                          rows={6}
+                          value={formData.about_app_ru || ''}
+                          onChange={handleInputChange}
+                          className="input-glass resize-none"
+                        />
+                      </div>
+                    )}
+                    {aboutLang === 'en' && (
+                      <div className="space-y-2 animate-in fade-in duration-300">
+                        <label className="text-sm font-medium text-app-subtle ml-1">{t('languages.en')}</label>
+                        <textarea
+                          name="about_app_en"
+                          rows={6}
+                          value={formData.about_app_en || ''}
+                          onChange={handleInputChange}
+                          className="input-glass resize-none"
+                        />
+                      </div>
+                    )}
                   </div>
                 </GlassCard>
               </div>
