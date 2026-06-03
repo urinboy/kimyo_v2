@@ -242,74 +242,78 @@ class _QuizListPageState extends State<QuizListPage> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: isDark ? iconColor.withOpacity(0.22) : softBg,
-                shape: BoxShape.circle,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (_) => StandaloneQuizPage(quizId: q.id, title: title),
               ),
-              child: Icon(icon, color: iconColor, size: 28),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: isDark ? Colors.white : AppColors.textPrimary,
-                    ),
+            );
+          },
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: isDark ? iconColor.withOpacity(0.22) : softBg,
+                    shape: BoxShape.circle,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    lang == 'uz'
-                        ? '${q.questionsCount} ta savol'
-                        : (lang == 'ru' ? '${q.questionsCount} вопросов' : '${q.questionsCount} questions'),
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark ? Colors.white54 : AppColors.textSecondary,
-                    ),
+                  child: Icon(icon, color: iconColor, size: 28),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: isDark ? Colors.white : AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        lang == 'uz'
+                            ? '${q.questionsCount} ta savol'
+                            : (lang == 'ru' ? '${q.questionsCount} вопросов' : '${q.questionsCount} questions'),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isDark ? Colors.white54 : AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: isDark ? Colors.white38 : Colors.black38,
+                  size: 28,
+                ),
+              ],
             ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (_) => StandaloneQuizPage(quizId: q.id, title: title),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryPurple,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              ),
-              child: Text(
-                lang == 'uz' ? 'Boshlash' : (lang == 'ru' ? 'Начать' : 'Start'),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildFallbackCard(BuildContext context, Map<String, dynamic> quiz, bool isDark, String lang) {
+    final title = (quiz['title'] as Map)[lang] as String? ?? (quiz['title'] as Map)['uz'] as String;
+    final questionsCount = quiz['questions'] as int;
+    final iconColor = quiz['iconColor'] as Color;
+    final softBg = quiz['color'] as Color;
+    final icon = quiz['icon'] as IconData;
+
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
@@ -323,78 +327,73 @@ class _QuizListPageState extends State<QuizListPage> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                color: isDark ? (quiz['iconColor'] as Color).withOpacity(0.2) : quiz['color'],
-                shape: BoxShape.circle,
-              ),
-              child: Icon(quiz['icon'] as IconData, color: quiz['iconColor'] as Color, size: 28),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    (quiz['title'] as Map)[lang] as String? ?? (quiz['title'] as Map)['uz'] as String,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: isDark ? Colors.white : AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    lang == 'uz'
-                        ? '${quiz['questions']} ta savol'
-                        : (lang == 'ru' ? '${quiz['questions']} вопросов' : '${quiz['questions']} questions'),
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: isDark ? Colors.white54 : AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            ElevatedButton(
-              onPressed: () {
-                final title =
-                    (quiz['title'] as Map)[lang] as String? ?? (quiz['title'] as Map)['uz'] as String;
-                final category = (quiz['id'] as String?) ?? 'elements';
-                Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                    builder: (context) => QuizPage(
-                      title: title,
-                      category: category,
-                    ),
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryPurple,
-                foregroundColor: Colors.white,
-                elevation: 0,
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            final category = (quiz['id'] as String?) ?? 'elements';
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(
+                builder: (context) => QuizPage(
+                  title: title,
+                  category: category,
                 ),
               ),
-              child: Text(
-                lang == 'uz' ? 'Boshlash' : (lang == 'ru' ? 'Начать' : 'Start'),
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
+            );
+          },
+          borderRadius: BorderRadius.circular(24),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: isDark ? iconColor.withOpacity(0.2) : softBg,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(icon, color: iconColor, size: 28),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: isDark ? Colors.white : AppColors.textPrimary,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        lang == 'uz'
+                            ? '$questionsCount ta savol'
+                            : (lang == 'ru' ? '$questionsCount вопросов' : '$questionsCount questions'),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: isDark ? Colors.white54 : AppColors.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Icon(
+                  Icons.chevron_right_rounded,
+                  color: isDark ? Colors.white38 : Colors.black38,
+                  size: 28,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
+

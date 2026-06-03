@@ -9,7 +9,7 @@ import '../../core/utils/toast_util.dart';
 import '../../injection_container.dart' as di;
 import 'activity_history_page.dart';
 import 'edit_profile_page.dart';
-import '../widgets/logout_confirm_dialog.dart';
+import '../widgets/logout_confirm_bottom_sheet.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -138,9 +138,10 @@ class ProfilePage extends StatelessWidget {
                 bgColor: isDark ? const Color(0xFFB71C1C).withValues(alpha: 0.2) : AppColors.iconBackgroundRed,
                 titleColor: AppColors.iconRed,
                 onTap: () async {
-                  final result = await showDialog<bool>(
+                  final result = await showModalBottomSheet<bool>(
                     context: context,
-                    builder: (_) => const LogoutConfirmDialog(),
+                    backgroundColor: Colors.transparent,
+                    builder: (_) => const LogoutConfirmBottomSheet(),
                   );
                   if (result == true && context.mounted) {
                     await di.sl<AuthSession>().signOut();

@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -130,7 +131,7 @@ class _VideoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return InkWell(
+    return GestureDetector(
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
@@ -140,136 +141,226 @@ class _VideoCard extends StatelessWidget {
           ),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Thumbnail
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                CachedNetworkImage(
-                  imageUrl: video.thumbnailUrl ?? '',
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => Container(
-                    color: isDark ? Colors.white10 : Colors.grey.shade200,
-                    child: const Center(
-                      child: CircularProgressIndicator(strokeWidth: 2),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: isDark
+              ? Colors.white.withOpacity(0.08)
+              : Colors.white.withOpacity(0.75),
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.white.withOpacity(0.2)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(isDark ? 0.2 : 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            )
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Thumbnail
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(23)),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: video.thumbnailUrl ?? '',
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) => Container(
+                        color: isDark ? Colors.white10 : Colors.grey.shade200,
+                        child: const Center(
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                      ),
+                      errorWidget: (_, __, ___) => Container(
+                        color: isDark ? Colors.white10 : Colors.grey.shade200,
+                        child: Icon(
+                          Icons.video_library_outlined,
+                          size: 48,
+                          color: isDark ? Colors.white30 : Colors.grey.shade400,
+                        ),
+                      ),
                     ),
-                  ),
-                  errorWidget: (_, __, ___) => Container(
-                    color: isDark ? Colors.white10 : Colors.grey.shade200,
-                    child: Icon(
-                      Icons.video_library_outlined,
-                      size: 48,
-                      color: isDark ? Colors.white30 : Colors.grey.shade400,
-                    ),
-                  ),
-                ),
-                // YouTube-style dark overlay gradient
-                const DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [Colors.transparent, Color(0x88000000)],
-                      stops: [0.5, 1.0],
-                    ),
-                  ),
-                ),
-                // Play button
-                Center(
-                  child: Container(
-                    width: 52,
-                    height: 52,
-                    decoration: BoxDecoration(
-                      color: Colors.black.withValues(alpha: 0.6),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(Icons.play_arrow_rounded,
-                        color: Colors.white, size: 32),
-                  ),
-                ),
-                // Duration badge (bottom-right) — agar publishedAt bo'lsa
-                if (video.publishedAt != null)
-                  Positioned(
-                    bottom: 8,
-                    right: 8,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    // YouTube-style dark overlay gradient
+                    const DecoratedBox(
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.75),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        _formatDate(context, video.publishedAt!),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w500,
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Colors.transparent, Color(0x66000000)],
+                          stops: [0.5, 1.0],
                         ),
                       ),
                     ),
-                  ),
-              ],
+                    // Source badge (top-left)
+                    Positioned(
+                      top: 12,
+                      left: 12,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                            decoration: BoxDecoration(
+                              color: (video.hasServerVideo
+                                      ? AppColors.primaryPurple
+                                      : const Color(0xFFFF0000))
+                                  .withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: (video.hasServerVideo
+                                        ? AppColors.primaryPurple
+                                        : const Color(0xFFFF0000))
+                                    .withOpacity(0.4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  video.hasServerVideo
+                                      ? Icons.storage_rounded
+                                      : Icons.play_circle_outline,
+                                  size: 14,
+                                  color: video.hasServerVideo
+                                      ? AppColors.primaryPurple
+                                      : const Color(0xFFFF0000),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  video.hasServerVideo ? 'Server' : 'YouTube',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: isDark ? Colors.white : Colors.black87,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Play button (glassmorphic circle)
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(30),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                          child: Container(
+                            width: 56,
+                            height: 56,
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.25),
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.4),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: const Icon(
+                              Icons.play_arrow_rounded,
+                              color: Colors.white,
+                              size: 36,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Duration/Date badge (bottom-right)
+                    if (video.publishedAt != null)
+                      Positioned(
+                        bottom: 12,
+                        right: 12,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.6),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Text(
+                                _formatDate(context, video.publishedAt!),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
-          ),
 
-          // Info qismi
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 10, 8, 14),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Channel avatar
-                CircleAvatar(
-                  radius: 18,
-                  backgroundColor: AppColors.primaryPurple.withValues(alpha: 0.15),
-                  child: Icon(
-                    Icons.science_rounded,
-                    color: AppColors.primaryPurple,
-                    size: 18,
+            // Info qismi
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Channel avatar
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: AppColors.primaryPurple.withOpacity(0.12),
+                    child: const Icon(
+                      Icons.science_rounded,
+                      color: AppColors.primaryPurple,
+                      size: 20,
+                    ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                // Title + channel
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        video.title,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          height: 1.3,
-                          color: isDark ? Colors.white : Colors.black87,
+                  const SizedBox(width: 12),
+                  // Title + channel
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          video.title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            height: 1.4,
+                            color: isDark ? Colors.white : Colors.black87,
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        video.channelName ?? 'Kimyo kanali',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: isDark ? Colors.white54 : Colors.black45,
+                        const SizedBox(height: 6),
+                        Text(
+                          video.channelName ?? 'Kimyo kanali',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: isDark ? Colors.white60 : Colors.black54,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                // More button
-                Icon(Icons.more_vert,
-                    size: 20,
-                    color: isDark ? Colors.white38 : Colors.black38),
-              ],
+                  const SizedBox(width: 8),
+                  // More button
+                  Icon(Icons.more_vert,
+                      size: 20,
+                      color: isDark ? Colors.white38 : Colors.black38),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

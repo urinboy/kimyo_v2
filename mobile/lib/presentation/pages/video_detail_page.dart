@@ -105,136 +105,207 @@ class _VideoDetailPageState extends State<VideoDetailPage> {
 
               // Info qismi
               SliverPadding(
-                padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     // Title
                     Text(
                       video.title,
                       style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        height: 1.3,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        height: 1.4,
                         color: isDark ? Colors.white : Colors.black87,
                       ),
                     ),
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 16),
 
-                    // Channel + sana + tashqi link
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundColor: AppColors.primaryPurple.withValues(alpha: 0.15),
-                          child: Icon(Icons.science_rounded,
-                              color: AppColors.primaryPurple, size: 20),
+                    // Main info card
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                        color: isDark
+                            ? Colors.white.withOpacity(0.05)
+                            : Colors.white,
+                        borderRadius: BorderRadius.circular(24),
+                        border: Border.all(
+                          color: Colors.white.withOpacity(isDark ? 0.1 : 0.6),
                         ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                        boxShadow: [
+                          if (!isDark)
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.03),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              Text(
-                                video.channelName ?? context.tr('videos_channel_default'),
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark ? Colors.white : Colors.black87,
+                              CircleAvatar(
+                                radius: 20,
+                                backgroundColor: AppColors.primaryPurple.withOpacity(0.12),
+                                child: const Icon(
+                                  Icons.science_rounded,
+                                  color: AppColors.primaryPurple,
+                                  size: 20,
                                 ),
                               ),
-                              if (video.publishedAt != null)
-                                Text(
-                                  _formatDate(context, video.publishedAt!),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: isDark ? Colors.white54 : Colors.black45,
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      video.channelName ?? context.tr('videos_channel_default'),
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: isDark ? Colors.white : Colors.black87,
+                                      ),
+                                    ),
+                                    if (video.publishedAt != null) ...[
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        _formatDate(context, video.publishedAt!),
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: isDark ? Colors.white60 : Colors.black54,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
+                          Row(
+                            children: [
+                              if (video.hasServerVideo)
+                                _SourceBadge(
+                                  icon: Icons.storage_rounded,
+                                  label: 'Server Video',
+                                  color: AppColors.primaryPurple,
+                                ),
+                              if (video.hasServerVideo && video.hasYoutube)
+                                const SizedBox(width: 8),
+                              if (video.hasYoutube)
+                                _SourceBadge(
+                                  icon: Icons.play_circle_outline,
+                                  label: 'YouTube',
+                                  color: const Color(0xFFFF0000),
+                                ),
+                              const Spacer(),
+                              if (externalUrl != null)
+                                OutlinedButton.icon(
+                                  onPressed: () => _openExternal(externalUrl),
+                                  icon: Icon(
+                                    video.hasServerVideo ? Icons.language : Icons.play_arrow_rounded,
+                                    size: 16,
+                                  ),
+                                  label: Text(
+                                    video.hasServerVideo ? 'Brauzer' : 'YouTube',
+                                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                    foregroundColor: video.hasServerVideo
+                                        ? AppColors.primaryPurple
+                                        : const Color(0xFFFF0000),
+                                    side: BorderSide(
+                                      color: video.hasServerVideo
+                                          ? AppColors.primaryPurple
+                                          : const Color(0xFFFF0000),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
                                   ),
                                 ),
                             ],
                           ),
-                        ),
-                        // Tashqi link tugmasi
-                        if (externalUrl != null)
-                          OutlinedButton.icon(
-                            onPressed: () => _openExternal(externalUrl),
-                            icon: const Icon(Icons.open_in_new, size: 16),
-                            label: Text(
-                              video.hasServerVideo ? 'Brauzer' : 'YouTube',
-                              style: const TextStyle(fontSize: 12),
-                            ),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: video.hasServerVideo
-                                  ? AppColors.primaryPurple
-                                  : const Color(0xFFFF0000),
-                              side: BorderSide(
-                                color: video.hasServerVideo
-                                    ? AppColors.primaryPurple
-                                    : const Color(0xFFFF0000),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                            ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
 
-                    // Source badge
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        if (video.hasServerVideo)
-                          _SourceBadge(
-                            icon: Icons.storage_rounded,
-                            label: 'Server video',
-                            color: AppColors.primaryPurple,
-                          ),
-                        if (video.hasServerVideo && video.hasYoutube)
-                          const SizedBox(width: 8),
-                        if (video.hasYoutube)
-                          _SourceBadge(
-                            icon: Icons.play_circle_outline,
-                            label: 'YouTube',
-                            color: const Color(0xFFFF0000),
-                          ),
-                      ],
-                    ),
-
-                    // Description
-                    if (video.description != null &&
-                        video.description!.trim().isNotEmpty) ...[
+                    // Description card
+                    if (video.description != null && video.description!.trim().isNotEmpty) ...[
                       const SizedBox(height: 16),
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(14),
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: isDark
-                              ? Colors.white.withValues(alpha: 0.06)
-                              : Colors.black.withValues(alpha: 0.04),
-                          borderRadius: BorderRadius.circular(16),
+                              ? Colors.white.withOpacity(0.05)
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(24),
+                          border: Border.all(
+                            color: Colors.white.withOpacity(isDark ? 0.1 : 0.6),
+                          ),
+                          boxShadow: [
+                            if (!isDark)
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.03),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                          ],
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline_rounded,
+                                  size: 18,
+                                  color: AppColors.primaryPurple.withOpacity(0.8),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  "Darslik Tavsifi",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14,
+                                    color: AppColors.primaryPurple.withOpacity(0.9),
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Divider(height: 20, thickness: 0.8),
                             Text(
-                              _descExpanded || video.description!.length < 160
+                              _descExpanded || video.description!.length < 240
                                   ? video.description!
-                                  : '${video.description!.substring(0, 160)}…',
+                                  : '${video.description!.substring(0, 240)}…',
                               style: TextStyle(
                                 fontSize: 14,
-                                height: 1.5,
+                                height: 1.6,
                                 color: isDark ? Colors.white70 : Colors.black87,
                               ),
                             ),
-                            if (video.description!.length >= 160)
-                              TextButton(
-                                onPressed: () =>
-                                    setState(() => _descExpanded = !_descExpanded),
-                                child: Text(
-                                  _descExpanded
-                                      ? context.tr('show_less')
-                                      : context.tr('show_more'),
+                            if (video.description!.length >= 240) ...[
+                              const SizedBox(height: 8),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: TextButton.icon(
+                                  onPressed: () => setState(() => _descExpanded = !_descExpanded),
+                                  icon: Icon(
+                                    _descExpanded ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
+                                    size: 16,
+                                  ),
+                                  label: Text(
+                                    _descExpanded ? context.tr('show_less') : context.tr('show_more'),
+                                    style: const TextStyle(fontWeight: FontWeight.bold),
+                                  ),
                                 ),
                               ),
+                            ],
                           ],
                         ),
                       ),
