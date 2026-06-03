@@ -124,7 +124,7 @@ export function VideoModal({ isOpen, onClose, editing, onSubmit, isPending }: Vi
       title={editing ? t('videos.edit_title') : t('videos.add_title')}
       className="max-w-2xl"
     >
-      <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-1">
+      <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-1 scrollbar-none">
 
         {/* Manba tanlash */}
         <div className="flex rounded-2xl overflow-hidden border border-black/10 dark:border-white/10">

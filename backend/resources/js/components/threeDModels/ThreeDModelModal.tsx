@@ -98,7 +98,7 @@ export function ThreeDModelModal({ isOpen, onClose, editing, onSubmit, isPending
       title={editing ? t('three_d_models.edit_title') : t('three_d_models.add_title')}
       className="max-w-2xl"
     >
-      <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-1">
+      <div className="space-y-5 max-h-[70vh] overflow-y-auto pr-1 scrollbar-none">
 
         {/* Slug */}
         <div>

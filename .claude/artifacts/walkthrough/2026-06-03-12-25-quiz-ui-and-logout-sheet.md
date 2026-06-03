@@ -21,6 +21,8 @@ Ilovaning mobil (Flutter) va boshqaruv (React Admin) qismlarida UI/UX dizaynini 
   - Ushbu uchta sahifadagi o'qilishi juda qiyin bo'lgan gradientli sarlavha klasslari olib tashlandi va ular loyiha tizimidagi standart clean `text-app-primary` (solid oq/to'q rangli) sarlavha klasslariga o'zgartirildi.
 - **Sozlamalar tavsif Tabs (`SettingsPage.tsx`)**:
   - "Ilova haqida (tavsif)" bo'limidagi stacked (ketma-ket) joylashgan uchta tavsif maydonlari o'rniga premium va animatsiyali UZ, RU, EN tillar tabs paneli o'rnatildi.
+- **Modal oynalardagi scrollbar yashirish (`ThreeDModelModal.tsx`, `VideoModal.tsx`)**:
+  - 3D Modelni tahrirlash va Videoni tahrirlash modal oynalarida paydo bo'ladigan noqulay va qalin native scrollbar yashirildi (`scrollbar-none` klassi orqali). Scrolling funksiyasi to'liq saqlab qolindi.
 
 ---
 
