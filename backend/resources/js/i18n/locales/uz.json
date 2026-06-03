@@ -628,6 +628,9 @@
     "placeholder_question": "Masalan, qaysi element oltin?"
   },
   "common": {
+    "showing_info": "{{total}} tadan {{from}}-{{to}} ko'rsatilmoqda",
+    "prev": "Oldingi",
+    "next": "Keyingi",
     "loading": "Yuklanmoqda...",
     "error": "Xatolik yuz berdi",
     "save": "Saqlash",

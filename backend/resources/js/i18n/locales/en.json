@@ -573,6 +573,9 @@
     "placeholder_question": "e.g. What is the symbol for gold?"
   },
   "common": {
+    "showing_info": "Showing {{from}}–{{to}} of {{total}}",
+    "prev": "Previous",
+    "next": "Next",
     "loading": "Loading...",
     "error": "An error occurred",
     "save": "Save",

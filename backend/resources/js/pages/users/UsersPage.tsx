@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { Plus, Edit2, Trash2, User as UserIcon, Shield, Loader2, Key, Eye, EyeOff, AtSign, Phone, GraduationCap, Building, Search, MapPin, School as SchoolIcon, X, Users, BookOpen, Building2 } from 'lucide-react';
+import { Plus, Edit2, Trash2, User as UserIcon, Shield, Loader2, Key, Eye, EyeOff, AtSign, Phone, GraduationCap, Building, Search, MapPin, School as SchoolIcon, X, Users, BookOpen, Building2, ChevronLeft, ChevronRight } from 'lucide-react';
 import { userApi, type User } from '@/api/users';
 import { schoolsApi } from '@/api/schools';
 import { roleApi } from '@/api/roles';
@@ -9,7 +9,7 @@ import { getApiErrorMessage } from '@/lib/apiErrorMessage';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlassModal } from '@/components/ui/GlassModal';
 import { ConfirmModal } from '@/components/ui/ConfirmModal';
-import { schoolsWithSelectLabel, schoolLocationSubtitle } from '@/lib/utils';
+import { schoolsWithSelectLabel, schoolLocationSubtitle, cn } from '@/lib/utils';
 import { toast } from 'sonner';
 
 function buildUserSearchHaystack(user: User): string {
@@ -75,7 +75,16 @@ const UsersPage = () => {
   const [filterCity, setFilterCity]     = useState('');
   const [filterSchoolId, setFilterSchoolId] = useState('');
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 15;
+
   const { data: usersData, isLoading } = useQuery({ queryKey: ['users'], queryFn: userApi.getAll });
+
+  // Reset pagination to page 1 when search or filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [userSearch, filterCity, filterSchoolId]);
   const { data: rolesData } = useQuery({ queryKey: ['roles'], queryFn: roleApi.getAll });
   const { data: schoolsData } = useQuery({ queryKey: ['schools'], queryFn: schoolsApi.getAll });
 
@@ -125,6 +134,29 @@ const UsersPage = () => {
       return true;
     });
   }, [usersData?.data.users, userSearch, filterCity, filterSchoolId]);
+
+  const totalPages = Math.ceil(filteredUsers.length / pageSize);
+
+  const paginatedUsers = useMemo(() => {
+    return filteredUsers.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  }, [filteredUsers, currentPage, pageSize]);
+
+  const pageNumbers = useMemo(() => {
+    const pages: (number | string)[] = [];
+    const delta = 1;
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - delta && i <= currentPage + delta)
+      ) {
+        pages.push(i);
+      } else if (pages[pages.length - 1] !== '...') {
+        pages.push('...');
+      }
+    }
+    return pages;
+  }, [currentPage, totalPages]);
 
   const createMutation = useMutation({
     mutationFn: userApi.create,
@@ -380,7 +412,7 @@ const UsersPage = () => {
                   </td>
                 </tr>
               ) : (
-                filteredUsers.map((user) => (
+                paginatedUsers.map((user) => (
                   <tr key={user.id}>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -406,7 +438,7 @@ const UsersPage = () => {
                     <td className="px-6 py-4 text-sm max-w-[min(22rem,40vw)]">
                       {user.school ? (
                         <div className="space-y-0.5">
-                          <div className="font-medium text-app-primary leading-snug">{user.school.name}</div>
+                           <div className="font-medium text-app-primary leading-snug">{user.school.name}</div>
                           <div
                             className="text-xs text-app-muted tabular-nums leading-snug"
                             title={schoolLocationSubtitle(user.school)}
@@ -467,6 +499,59 @@ const UsersPage = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Pagination controls */}
+        {totalPages > 1 && (
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-t border-white/10 dark:border-white/10 px-6 py-4">
+            <p className="text-sm text-app-muted">
+              {t('common.showing_info', {
+                from: (currentPage - 1) * pageSize + 1,
+                to: Math.min(currentPage * pageSize, filteredUsers.length),
+                total: filteredUsers.length,
+              })}
+            </p>
+            <div className="flex items-center gap-1.5 self-center">
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-app-primary transition-all hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5"
+              >
+                <ChevronLeft className="h-4 w-4" />
+                {t('common.prev')}
+              </button>
+              
+              {pageNumbers.map((page, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => typeof page === 'number' && setCurrentPage(page)}
+                  disabled={page === '...'}
+                  className={cn(
+                    'flex h-9 w-9 items-center justify-center rounded-xl text-sm font-semibold transition-all',
+                    page === currentPage
+                      ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20'
+                      : page === '...'
+                      ? 'text-app-muted cursor-default'
+                      : 'border border-white/10 bg-white/5 text-app-primary hover:bg-white/10',
+                  )}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className="flex items-center gap-1 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-sm font-semibold text-app-primary transition-all hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5"
+              >
+                {t('common.next')}
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        )}
       </GlassCard>
 
       <ConfirmModal
