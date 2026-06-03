@@ -16,6 +16,8 @@ import 'interesting_tasks_page.dart';
 import 'natural_resources_map_page.dart';
 import 'regional_minerals_page.dart';
 import 'videos_page.dart';
+import 'three_d_models_page.dart';
+import '../bloc/three_d_model_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -118,6 +120,18 @@ class HomePage extends StatelessWidget {
                     builder: (_) => BlocProvider(
                       create: (_) => sl<VideoBloc>(),
                       child: const VideosPage(),
+                    ),
+                  ),
+                ),
+              ),
+              ModuleMenuSubItem(
+                title: context.tr('menu_3d_models'),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BlocProvider(
+                      create: (_) => sl<ThreeDModelBloc>(),
+                      child: const ThreeDModelsPage(),
                     ),
                   ),
                 ),

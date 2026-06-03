@@ -52,6 +52,13 @@ import 'domain/usecases/get_lab_work_detail.dart';
 import 'domain/repositories/lab_work_repository.dart';
 import 'data/repositories/lab_work_repository_impl.dart';
 import 'data/datasources/lab_work_remote_datasource.dart';
+// 3D Models
+import 'presentation/bloc/three_d_model_bloc.dart';
+import 'domain/usecases/get_three_d_models.dart';
+import 'domain/usecases/get_three_d_model_detail.dart';
+import 'domain/repositories/three_d_model_repository.dart';
+import 'data/repositories/three_d_model_repository_impl.dart';
+import 'data/datasources/three_d_model_remote_datasource.dart';
 
 final sl = GetIt.instance;
 
@@ -70,6 +77,10 @@ Future<void> init() async {
         getVideos: sl(),
         getVideoDetail: sl(),
       ));
+  sl.registerFactory(() => ThreeDModelBloc(
+        getThreeDModels: sl(),
+        getThreeDModelDetail: sl(),
+      ));
 
   // Use cases
   sl.registerLazySingleton(() => GetElementsUseCase(sl()));
@@ -80,6 +91,8 @@ Future<void> init() async {
   sl.registerLazySingleton(() => GetLabWorkDetailUseCase(sl()));
   sl.registerLazySingleton(() => GetVideosUseCase(sl()));
   sl.registerLazySingleton(() => GetVideoDetailUseCase(sl()));
+  sl.registerLazySingleton(() => GetThreeDModelsUseCase(sl()));
+  sl.registerLazySingleton(() => GetThreeDModelDetailUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<ElementRepository>(
@@ -107,6 +120,9 @@ Future<void> init() async {
   sl.registerLazySingleton<VideoRepository>(
     () => VideoRepositoryImpl(remoteDataSource: sl()),
   );
+  sl.registerLazySingleton<ThreeDModelRepository>(
+    () => ThreeDModelRepositoryImpl(remoteDataSource: sl()),
+  );
 
   // Data sources
   sl.registerLazySingleton<ElementBundledDataSource>(
@@ -133,6 +149,9 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<VideoRemoteDataSource>(
     () => VideoRemoteDataSourceImpl(dio: sl<DioClient>().dio),
+  );
+  sl.registerLazySingleton<ThreeDModelRemoteDataSource>(
+    () => ThreeDModelRemoteDataSourceImpl(dio: sl<DioClient>().dio),
   );
   sl.registerLazySingleton<AuthRemoteDataSource>(
     () => AuthRemoteDataSourceImpl(dio: sl<DioClient>().dio),
