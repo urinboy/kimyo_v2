@@ -39,6 +39,7 @@ class DocumentDownloadService extends ChangeNotifier {
   // ---------- status ----------
 
   DownloadStatus statusOf(DocumentModel doc) {
+    if (kIsWeb) return DownloadStatus.none;
     final name = doc.originalFilename;
     if (name == null || name.isEmpty) return DownloadStatus.none;
 
@@ -76,6 +77,7 @@ class DocumentDownloadService extends ChangeNotifier {
 
   /// Sahifa ochilganda chaqing — diskdagi nusxalar bo‘yicha ikonka/holat to‘g‘ri bo‘ladi.
   Future<void> ensureOfflineDirectoryReady() async {
+    if (kIsWeb) return;
     await _docsDir;
     notifyListeners();
   }
@@ -83,6 +85,7 @@ class DocumentDownloadService extends ChangeNotifier {
   // ---------- paths ----------
 
   Future<Directory> get _docsDir async {
+    if (kIsWeb) throw UnsupportedError('Local directory storage is not supported on web.');
     final appDir = await getApplicationDocumentsDirectory();
     final dir = Directory('${appDir.path}/offline_docs');
     if (!dir.existsSync()) await dir.create(recursive: true);
@@ -91,6 +94,7 @@ class DocumentDownloadService extends ChangeNotifier {
   }
 
   Future<String?> localPathOf(DocumentModel doc) async {
+    if (kIsWeb) return null;
     final name = doc.originalFilename;
     if (name == null || name.isEmpty) return null;
     final dir = await _docsDir;
@@ -101,6 +105,7 @@ class DocumentDownloadService extends ChangeNotifier {
   // ---------- download ----------
 
   Future<void> download(DocumentModel doc) async {
+    if (kIsWeb) return;
     final name = doc.originalFilename;
     if (name == null || name.isEmpty) return;
     final url = resolveDocumentPdfUrl(dio.options.baseUrl, doc);
@@ -158,6 +163,7 @@ class DocumentDownloadService extends ChangeNotifier {
   /// Tarmoq URL mavjud bo‘lsa yuklab, yo‘lini qaytaradi; allaqachon diskda bo‘lsa darhol yo‘l.
   /// [fileUrl] bo‘sh fallback uchun `/storage/documents/<original_filename>` tuziladi.
   Future<String?> ensurePdfOnDisk(DocumentModel doc) async {
+    if (kIsWeb) return null;
     await _docsDir;
     final cached = await localPathOf(doc);
     if (cached != null) return cached;
@@ -175,6 +181,7 @@ class DocumentDownloadService extends ChangeNotifier {
   // ---------- delete local copy ----------
 
   Future<void> deleteLocal(DocumentModel doc) async {
+    if (kIsWeb) return;
     final name = doc.originalFilename;
     if (name == null || name.isEmpty) return;
     final path = await localPathOf(doc);

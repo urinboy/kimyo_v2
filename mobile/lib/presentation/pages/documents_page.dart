@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/theme/colors.dart';
 import '../../core/services/document_download_service.dart';
+import '../../core/utils/document_pdf_url.dart';
 import '../../data/datasources/document_remote_data_source.dart';
 import '../../data/models/document_model.dart';
 import '../../injection_container.dart' as di;
@@ -521,6 +525,24 @@ class _DocTile extends StatelessWidget {
     bool isDownloaded,
     bool isDark,
   ) {
+    if (kIsWeb) {
+      if (hasBundled) {
+        return Icon(
+          Icons.visibility_outlined,
+          size: 24,
+          color: isDark ? Colors.white70 : AppColors.primaryBlue,
+        );
+      }
+      if (downloader.hasFetchablePdfUrl(doc)) {
+        return Icon(
+          Icons.open_in_new_rounded,
+          size: 24,
+          color: isDark ? Colors.white70 : AppColors.primaryBlue,
+        );
+      }
+      return const Icon(Icons.chevron_right_rounded, color: Colors.grey, size: 28);
+    }
+
     // Serverdan yuklab olingan lokal nusxa — tayyor (✓) + o‘chirish
     if (isDownloaded) {
       return Row(
@@ -628,6 +650,33 @@ class _DocTile extends StatelessWidget {
     final lang = Localizations.localeOf(context).languageCode;
     final title = doc.titleFor(lang);
     final status = downloader.statusOf(doc);
+
+    if (kIsWeb) {
+      if (doc.bundledAssetPath != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => PdfViewerPage(
+              title: title,
+              assetPath: doc.bundledAssetPath,
+            ),
+          ),
+        );
+        return;
+      }
+      if (downloader.hasFetchablePdfUrl(doc)) {
+        final baseUrl = di.sl<Dio>().options.baseUrl;
+        final url = resolveDocumentPdfUrl(baseUrl, doc);
+        if (url.isNotEmpty) {
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+          return;
+        }
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(context.tr('doc_file_not_on_device'))),
+      );
+      return;
+    }
 
     if (status == DownloadStatus.downloading) {
       return;
