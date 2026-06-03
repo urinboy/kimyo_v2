@@ -540,6 +540,7 @@
     "load_report": "Обновить отчёт",
     "summary_attempts": "Всего попыток",
     "summary_students": "Уникальных учеников",
+    "summary_avg_score": "Средний результат",
     "question_distribution": "Распределение ответов по вопросам",
     "correct_badge": "верно",
     "answers_empty_questions": "Нет данных для выбранных фильтров.",

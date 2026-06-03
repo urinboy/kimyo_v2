@@ -595,6 +595,7 @@
     "load_report": "Hisobotni yangilash",
     "summary_attempts": "Jami topshirishlar",
     "summary_students": "Noodatiy o'quvchilar",
+    "summary_avg_score": "O'rtacha natija",
     "question_distribution": "Savollar bo'yicha variantlar taqsimoti",
     "correct_badge": "to'g'ri",
     "answers_empty_questions": "Tanlangan filtrlar uchun ma'lumot yo'q.",

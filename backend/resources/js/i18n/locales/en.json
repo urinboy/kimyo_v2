@@ -540,6 +540,7 @@
     "load_report": "Refresh report",
     "summary_attempts": "Total submissions",
     "summary_students": "Unique students",
+    "summary_avg_score": "Average score",
     "question_distribution": "Answers per question",
     "correct_badge": "correct",
     "answers_empty_questions": "No data for the selected filters.",

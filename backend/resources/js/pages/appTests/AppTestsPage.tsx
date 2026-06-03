@@ -3,8 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
-import { Plus, Edit2, Trash2, Loader2, ListChecks, BookOpen, HelpCircle, ClipboardList } from 'lucide-react';
+import { Plus, Edit2, Trash2, Loader2, ListChecks, BookOpen, HelpCircle, ClipboardList, Users } from 'lucide-react';
 import { standaloneQuizApi, type StandaloneQuiz, type StandaloneQuizPayload } from '@/api/standaloneQuizzes';
+import { dashboardApi } from '@/api/dashboard';
 import { getApiErrorMessage } from '@/lib/apiErrorMessage';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { GlassModal } from '@/components/ui/GlassModal';
@@ -45,6 +46,11 @@ const AppTestsPage = () => {
   const { data, isLoading } = useQuery({
     queryKey: ['standalone-quizzes', tab],
     queryFn: () => standaloneQuizApi.list(tab),
+  });
+
+  const { data: resultsData, isLoading: resultsLoading } = useQuery({
+    queryKey: ['student-results-summary'],
+    queryFn: () => dashboardApi.getStudentResults({ academic_year: 'all' }),
   });
 
   const quizzes = data?.data.quizzes ?? [];
@@ -148,22 +154,70 @@ const AppTestsPage = () => {
         </button>
       </div>
 
-      <div className="flex w-fit gap-2 rounded-2xl border border-black/10 bg-black/[0.04] p-1 dark:border-white/10 dark:bg-white/5">
-        {(['chemistry', 'geography'] as const).map((key) => (
-          <button
-            key={key}
-            type="button"
-            onClick={() => setTab(key)}
-            className={cn(
-              'rounded-xl px-6 py-2 text-sm font-bold transition-all',
-              tab === key
-                ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20'
-                : 'text-app-muted hover:bg-black/5 hover:text-app-primary dark:hover:bg-white/5',
-            )}
-          >
-            {key === 'chemistry' ? t('appTests.tab_chemistry') : t('appTests.tab_geography')}
-          </button>
-        ))}
+      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        {/* Tab Buttons */}
+        <div className="flex w-fit gap-2 rounded-2xl border border-black/10 bg-black/[0.04] p-1 dark:border-white/10 dark:bg-white/5">
+          {(['chemistry', 'geography'] as const).map((key) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setTab(key)}
+              className={cn(
+                'rounded-xl px-6 py-2 text-sm font-bold transition-all',
+                tab === key
+                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/20'
+                  : 'text-app-muted hover:bg-black/5 hover:text-app-primary dark:hover:bg-white/5',
+              )}
+            >
+              {key === 'chemistry' ? t('appTests.tab_chemistry') : t('appTests.tab_geography')}
+            </button>
+          ))}
+        </div>
+
+        {/* KPI Cards next to tabs (matching the red highlighted boxes in the user's screenshot) */}
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:flex-1 lg:max-w-3xl">
+          <GlassCard className="flex items-center gap-3 py-3 px-4">
+            <div className="rounded-xl bg-purple-500/10 p-2 text-purple-600 dark:text-purple-400">
+              <ClipboardList className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-app-muted truncate">
+                {t('appTests.summary_attempts')}
+              </p>
+              <p className="text-lg font-black text-app-primary mt-0.5 leading-none">
+                {resultsLoading ? '...' : resultsData?.data?.summary?.total_attempts ?? 0}
+              </p>
+            </div>
+          </GlassCard>
+
+          <GlassCard className="flex items-center gap-3 py-3 px-4">
+            <div className="rounded-xl bg-emerald-500/10 p-2 text-emerald-600 dark:text-emerald-400">
+              <Users className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-app-muted truncate">
+                {t('appTests.summary_students')}
+              </p>
+              <p className="text-lg font-black text-app-primary mt-0.5 leading-none">
+                {resultsLoading ? '...' : resultsData?.data?.summary?.unique_students ?? 0}
+              </p>
+            </div>
+          </GlassCard>
+
+          <GlassCard className="flex items-center gap-3 py-3 px-4">
+            <div className="rounded-xl bg-amber-500/10 p-2 text-amber-600 dark:text-amber-400">
+              <ListChecks className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold uppercase tracking-wider text-app-muted truncate">
+                {t('appTests.summary_avg_score')}
+              </p>
+              <p className="text-lg font-black text-app-primary mt-0.5 leading-none">
+                {resultsLoading ? '...' : resultsData?.data?.summary?.avg_percent != null ? `${resultsData.data.summary.avg_percent}%` : '—'}
+              </p>
+            </div>
+          </GlassCard>
+        </div>
       </div>
 
       {isLoading ? (

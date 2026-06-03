@@ -73,6 +73,57 @@ export interface ResearchStatsData {
   };
 }
 
+export interface StudentResultsData {
+  filters: {
+    academic_year: string;
+    from: string | null;
+    to: string | null;
+    school_id: number | null;
+    lang_id: number;
+  };
+  summary: {
+    total_attempts: number;
+    unique_students: number;
+    avg_percent: number | null;
+  };
+  by_quiz: Array<{
+    quiz_id: number;
+    title: string;
+    attempts_count: number;
+    students_count: number;
+    avg_percent: number | null;
+    correct_sum: number;
+    total_sum: number;
+  }>;
+  by_school: Array<{
+    school_id: number | null;
+    school_name: string | null;
+    school_short_name: string | null;
+    attempts_count: number;
+    students_count: number;
+    avg_percent: number | null;
+  }>;
+  by_grade: Array<{
+    grade: number | null;
+    attempts_count: number;
+    students_count: number;
+    avg_percent: number | null;
+  }>;
+  recent_attempts: Array<{
+    id: number;
+    quiz_id: number;
+    quiz_title: string;
+    user_name: string | null;
+    user_username: string | null;
+    grade: number | null;
+    school_name: string | null;
+    correct_count: number;
+    total_count: number;
+    percent: number | null;
+    created_at: string | null;
+  }>;
+}
+
 export const dashboardApi = {
   getStats: async () => {
     const response = await apiClient.get<JSendResponse<{ stats: DashboardStats }>>('/dashboard/stats');
@@ -84,6 +135,14 @@ export const dashboardApi = {
   },
   getResearchStats: async () => {
     const response = await apiClient.get<JSendResponse<ResearchStatsData>>('/dashboard/research-stats');
+    return response.data;
+  },
+  getStudentResults: async (params?: { academic_year?: string; school_id?: number; lang_id?: number }) => {
+    const sp = new URLSearchParams();
+    if (params?.academic_year) sp.set('academic_year', params.academic_year);
+    if (params?.school_id) sp.set('school_id', String(params.school_id));
+    if (params?.lang_id) sp.set('lang_id', String(params.lang_id));
+    const response = await apiClient.get<JSendResponse<StudentResultsData>>(`/dashboard/student-results?${sp.toString()}`);
     return response.data;
   },
 };
