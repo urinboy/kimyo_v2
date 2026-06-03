@@ -58,12 +58,16 @@ function buildFormData(payload: ThreeDModelPayload): FormData | ThreeDModelPaylo
 
 export const threeDModelsApi = {
   getAll: async () => {
-    const response = await apiClient.get<JSendResponse<{ three_d_models: ThreeDModel[] }>>('/3d-models');
+    const response = await apiClient.get<JSendResponse<{ three_d_models: ThreeDModel[] }>>('/3d-models', {
+      params: { with_translations: 1 },
+    });
     return response.data;
   },
 
   getOne: async (id: number) => {
-    const response = await apiClient.get<JSendResponse<{ three_d_model: ThreeDModel }>>(`/3d-models/${id}`);
+    const response = await apiClient.get<JSendResponse<{ three_d_model: ThreeDModel }>>(`/3d-models/${id}`, {
+      params: { with_translations: 1 },
+    });
     return response.data;
   },
 

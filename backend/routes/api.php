@@ -29,6 +29,7 @@ use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\LabWorkController;
 use App\Http\Controllers\Api\VideoController;
 use App\Http\Controllers\Api\ThreeDModelController;
+use App\Http\Controllers\Api\RegionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -149,6 +150,10 @@ Route::prefix('v1')->middleware('api.key')->group(function () {
         Route::get('schools/{id}/students', [SchoolController::class, 'students'])->whereNumber('id');
         Route::apiResource('schools', SchoolController::class);
         Route::apiResource('mines', MineController::class)->except(['index', 'show']);
+        Route::get('regions', [RegionController::class, 'index']);
+        Route::post('regions', [RegionController::class, 'store']);
+        Route::put('regions/{id}', [RegionController::class, 'update'])->whereNumber('id');
+        Route::delete('regions/{id}', [RegionController::class, 'destroy'])->whereNumber('id');
         Route::apiResource('lessons', LessonController::class)->except(['index', 'show']);
         Route::get('lessons/{lesson}/lab-items', [LessonLabItemController::class, 'index']);
         Route::post('lessons/{lesson}/lab-items', [LessonLabItemController::class, 'store']);
