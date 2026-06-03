@@ -71,7 +71,7 @@ export default function ProfilePage() {
             <ChevronLeft className="h-4 w-4" />
             {t('profile.back_dashboard')}
           </Link>
-          <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-500 dark:from-white dark:to-white/40">
+          <h1 className="text-4xl font-black tracking-tight text-app-primary">
             {t('profile.title')}
           </h1>
           <p className="mt-2 flex items-center gap-2 text-body-secondary">

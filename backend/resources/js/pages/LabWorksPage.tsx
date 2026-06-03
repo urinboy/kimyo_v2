@@ -60,7 +60,7 @@ export default function LabWorksPage() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-4xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-800 to-gray-500 dark:from-white dark:to-white/40">
+          <h1 className="text-4xl font-black tracking-tight text-app-primary">
             Laboratoriya Ishlari
           </h1>
           <p className="text-body-secondary mt-2 flex items-center gap-2">
