@@ -664,6 +664,9 @@ class InterestingTaskController extends Controller
         return response()->file($real, [
             'Content-Type' => $mime,
             'Cache-Control' => 'public, max-age=86400',
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+            'Access-Control-Allow-Headers' => '*',
         ]);
     }
 

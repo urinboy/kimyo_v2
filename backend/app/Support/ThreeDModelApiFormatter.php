@@ -65,7 +65,7 @@ class ThreeDModelApiFormatter
         }
 
         return Storage::disk('public')->exists($model->model_path)
-            ? url('storage/' . $model->model_path)
+            ? url('api/v1/public-storage/' . $model->model_path)
             : null;
     }
 }
