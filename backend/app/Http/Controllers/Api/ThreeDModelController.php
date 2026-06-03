@@ -42,12 +42,8 @@ class ThreeDModelController extends Controller
         }
 
         $lang = $request->input('lang', 'uz');
-        $isAdmin = (bool) $request->user('sanctum');
 
-        $data = $models->map(fn($m) => $isAdmin
-            ? ThreeDModelApiFormatter::adminResource($m)
-            : ThreeDModelApiFormatter::listItem($m, $lang)
-        )->values();
+        $data = $models->map(fn($m) => ThreeDModelApiFormatter::listItem($m, $lang))->values();
 
         return response()->json(
             ['status' => 'success', 'data' => ['three_d_models' => $data]],
@@ -76,10 +72,7 @@ class ThreeDModelController extends Controller
         }
 
         $lang = $request->input('lang', 'uz');
-        $isAdmin = (bool) $request->user('sanctum');
-        $data = $isAdmin
-            ? ThreeDModelApiFormatter::adminResource($model)
-            : ThreeDModelApiFormatter::listItem($model, $lang);
+        $data = ThreeDModelApiFormatter::listItem($model, $lang);
 
         return response()->json(
             ['status' => 'success', 'data' => ['three_d_model' => $data]],
